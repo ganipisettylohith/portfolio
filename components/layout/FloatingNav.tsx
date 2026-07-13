@@ -43,16 +43,16 @@ export default function FloatingNav() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 ${
-        hasScrolled ? "py-2 px-4 glass-card rounded-full" : "py-4 px-6 bg-transparent"
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] sm:w-auto max-w-md sm:max-w-none ${
+        hasScrolled ? "py-2 px-2 sm:px-4 glass-card rounded-2xl sm:rounded-full" : "py-2 sm:py-4 px-2 sm:px-6 bg-transparent"
       }`}
     >
-      <ul className="flex items-center space-x-1 md:space-x-4">
+      <ul className="flex flex-wrap justify-center items-center gap-1 sm:gap-2 md:space-x-4">
         {navItems.map((item) => (
           <li key={item.name}>
             <a
               href={item.href}
-              className={`relative px-3 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`relative px-2 py-1.5 sm:px-3 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                 activeSection === item.name.toLowerCase()
                   ? "text-neon-blue"
                   : "text-gray-400 hover:text-white"

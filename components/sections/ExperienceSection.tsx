@@ -18,7 +18,7 @@ export default function ExperienceSection() {
           <div className="relative border-l border-white/10 ml-6 pl-8 pb-8">
             <div className="absolute w-4 h-4 bg-neon-blue rounded-full -left-[8.5px] top-0 shadow-[0_0_10px_#00f0ff]" />
             
-            <h3 className="text-2xl font-bold text-white">AI Engineer Intern</h3>
+            <h3 className="text-2xl font-bold text-white">Technical Intern</h3>
             <h4 className="text-lg text-neon-blue mb-2">Dream Olympic Sports Pvt Ltd</h4>
             
             <div className="glass-card p-6 mt-4">
