@@ -42,7 +42,7 @@ export default function AboutSection() {
     <AnimatedSection id="about">
       <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         <div className="w-full lg:w-1/2">
-          <h2 className="text-[48px] font-bold mb-6 leading-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-[48px] font-bold mb-6 leading-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
               About
             </span>{" "}
@@ -50,7 +50,7 @@ export default function AboutSection() {
           </h2>
           
           <div className="glass-card p-8">
-            <p className="text-[17px] text-gray-300 leading-relaxed">
+            <p className="text-base sm:text-[17px] text-gray-300 leading-relaxed">
               Technical Developer building intelligent, scalable, and production-ready AI applications using Large Language Models (LLMs), Multi-Agent Systems, Retrieval-Augmented Generation (RAG), FastAPI, PostgreSQL, and AWS. Dedicated to creating robust backend architectures and innovative AI solutions for real-world challenges.
             </p>
             
@@ -79,8 +79,8 @@ export default function AboutSection() {
               <div className="mb-4 p-3 rounded-xl bg-white/5 inline-block group-hover:scale-110 transition-transform">
                 {feature.icon}
               </div>
-              <h3 className="text-[24px] font-bold text-white mb-2 leading-tight">{feature.title}</h3>
-              <p className="text-[16px] text-gray-400 leading-relaxed">{feature.desc}</p>
+              <h3 className="text-xl sm:text-[24px] font-bold text-white mb-2 leading-tight">{feature.title}</h3>
+              <p className="text-sm sm:text-[16px] text-gray-400 leading-relaxed">{feature.desc}</p>
             </div>
           ))}
         </div>

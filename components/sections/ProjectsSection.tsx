@@ -233,7 +233,7 @@ export default function ProjectsSection() {
         )}
 
         {/* STANDARD PROJECTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
           {standardProjects.map((project, idx) => (
             <div key={idx} className={`glass-card p-8 flex flex-col h-full bg-[#101014]/55 border-l-[4px] ${project.color} transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:bg-white/[0.02]`}>
               

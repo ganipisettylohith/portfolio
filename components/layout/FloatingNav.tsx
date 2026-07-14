@@ -40,10 +40,10 @@ export default function FloatingNav() {
 
   return (
     <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{ y: -100, x: "-50%", opacity: 0 }}
+      animate={{ y: 0, x: "-50%", opacity: 1 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] sm:w-auto max-w-full sm:max-w-none ${
+      className={`fixed top-4 left-1/2 z-50 transition-all duration-300 w-[95%] sm:w-auto max-w-full sm:max-w-none ${
         hasScrolled ? "py-2 px-1 sm:px-4 glass-card rounded-2xl sm:rounded-full" : "py-2 sm:py-4 px-1 sm:px-6 bg-transparent"
       }`}
     >
