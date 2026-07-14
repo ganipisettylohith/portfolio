@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
-      <body className={inter.className}>
+    <html lang="en" className="dark scroll-smooth overflow-x-hidden max-w-[100vw]">
+      <body className={`${inter.className} overflow-x-hidden max-w-[100vw] relative`}>
         <LoadingScreen />
         <FloatingNav />
         {children}

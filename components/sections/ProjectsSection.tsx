@@ -31,7 +31,7 @@ const projects = [
     featured: false,
     features: ["Authentication", "Product Catalog", "Shopping Cart"],
     tech: ["Django", "Python", "HTML", "CSS", "JavaScript"],
-    links: { demo: "#", caseStudy: "#" }
+    links: { demo: "https://ecommerce-one-jade-93.vercel.app/", caseStudy: "#" }
   },
   {
     title: "Music Streaming Application",
