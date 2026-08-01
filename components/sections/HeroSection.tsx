@@ -1,101 +1,246 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin, Mail } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { ArrowRight, Download, Mail, Building2, Code2, Sparkles, Layers } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@/hooks/useGSAP";
+
+const specialties = [
+  "Multi-Agent AI Systems",
+  "RAG & Vector Search",
+  "LLM Fine-Tuning",
+  "FastAPI Microservices",
+  "AWS Cloud & Docker",
+];
+
+const floatingTech = [
+  { name: "Python", bg: "bg-amber-50 text-amber-900 border-amber-200", delay: 0, duration: 4 },
+  { name: "FastAPI", bg: "bg-emerald-50 text-emerald-900 border-emerald-200", delay: 0.5, duration: 4.8 },
+  { name: "PostgreSQL", bg: "bg-stone-100 text-stone-900 border-stone-300", delay: 1.0, duration: 5.2 },
+  { name: "PyTorch", bg: "bg-orange-50 text-orange-900 border-orange-200", delay: 1.5, duration: 4.4 },
+  { name: "AWS EC2", bg: "bg-stone-100 text-stone-800 border-stone-200", delay: 2.0, duration: 5.0 },
+  { name: "Docker", bg: "bg-teal-50 text-teal-900 border-teal-200", delay: 2.5, duration: 4.6 },
+  { name: "pgvector", bg: "bg-amber-50 text-amber-900 border-amber-200", delay: 3.0, duration: 5.4 },
+  { name: "LLM Training", bg: "bg-emerald-50 text-emerald-900 border-emerald-200", delay: 3.5, duration: 4.2 },
+  { name: "Next.js", bg: "bg-stone-100 text-stone-900 border-stone-300", delay: 4.0, duration: 4.8 },
+  { name: "React", bg: "bg-teal-50 text-teal-900 border-teal-200", delay: 4.5, duration: 5.0 },
+  { name: "Networking", bg: "bg-orange-50 text-orange-900 border-orange-200", delay: 5.0, duration: 4.5 },
+];
+
+const realStats = [
+  { label: "AI Agents Built", value: 4, suffix: "+" },
+  { label: "Flagship Projects", value: 3, suffix: "" },
+  { label: "Async FastAPI APIs", value: 100, suffix: "%" },
+  { label: "Graduation Year", value: 2025, suffix: "" },
+];
+
+function MagneticButton({ children, href, className }: { children: React.ReactNode; href: string; className: string }) {
+  const ref = useRef<HTMLAnchorElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springX = useSpring(x, { stiffness: 150, damping: 15 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!ref.current) return;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const distanceX = e.clientX - centerX;
+    const distanceY = e.clientY - centerY;
+    
+    if (Math.abs(distanceX) < 90 && Math.abs(distanceY) < 90) {
+      x.set(distanceX * 0.35);
+      y.set(distanceY * 0.35);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      className={className}
+    >
+      {children}
+    </motion.a>
+  );
+}
 
 export default function HeroSection() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const [specialtyIdx, setSpecialtyIdx] = useState(0);
+  const [typedText, setTypedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // GSAP Clip-Path Text Reveal on Load
+  useGSAP(
+    () => {
+      if (heroRef.current) {
+        const animElements = heroRef.current.querySelectorAll(".hero-text-anim");
+        gsap.fromTo(
+          animElements,
+          {
+            clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)",
+            y: 35,
+            scale: 1.08,
+            opacity: 0,
+          },
+          {
+            clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)",
+            y: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 0.9,
+            stagger: 0.1,
+            ease: "power4.out",
+          }
+        );
+      }
+    },
+    { scope: heroRef }
+  );
+
+  // Typewriter Loop
+  useEffect(() => {
+    const currentSpecialty = specialties[specialtyIdx];
+    const speed = isDeleting ? 35 : 70;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting && typedText === currentSpecialty) {
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && typedText === "") {
+        setIsDeleting(false);
+        setSpecialtyIdx((prev) => (prev + 1) % specialties.length);
+      } else {
+        setTypedText(
+          isDeleting
+            ? currentSpecialty.substring(0, typedText.length - 1)
+            : currentSpecialty.substring(0, typedText.length + 1)
+        );
+      }
+    }, speed);
+
+    return () => clearTimeout(timer);
+  }, [typedText, isDeleting, specialtyIdx]);
+
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-      <div className="z-10 text-center max-w-4xl px-4 sm:px-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="mb-6 inline-block"
-        >
-          <div className="px-4 py-2 rounded-full border border-neon-blue/30 bg-neon-blue/10 backdrop-blur-md text-neon-blue text-sm font-medium tracking-wide">
-            AVAILABLE FOR OPPORTUNITIES
-          </div>
-        </motion.div>
+    <section id="home" className="relative min-h-[90vh] flex flex-col justify-center items-center pt-28 pb-16 px-4 sm:px-6 overflow-hidden">
+      <div ref={heroRef} className="z-10 text-center max-w-4xl mx-auto flex flex-col items-center">
         
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-4"
-        >
-          Hi, I'm <span className="text-gradient">G. Lohith</span>
-        </motion.h1>
-        
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-xl sm:text-2xl md:text-4xl font-semibold text-gray-300 mb-8"
-        >
-          Technical Intern & Full Stack Developer
-        </motion.h2>
-        
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-base sm:text-lg text-gray-400 mb-10 max-w-2xl mx-auto"
-        >
-          Building production-ready AI applications, intelligent multi-agent systems, and full-stack architectures. Experienced in Deployment, Git, AWS, and Cloud integrations. Cyber Security Graduate (2025).
-        </motion.p>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <a href="#projects" className="w-full sm:w-auto group relative px-8 py-3 sm:py-4 bg-white text-black rounded-full font-bold text-base sm:text-lg overflow-hidden transition-transform hover:scale-105 active:scale-95">
-            <span className="relative z-10 flex items-center gap-2">
-              View Work <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+        {/* Role Badge */}
+        <div className="hero-text-anim inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-100/60 border border-amber-200/80 text-[var(--accent-primary)] text-xs sm:text-sm font-bold shadow-sm mb-6">
+          <Building2 size={15} className="text-[var(--accent-primary)]" />
+          Technical Intern • Dream Olympic Sports Pvt Ltd
+        </div>
+
+        {/* Large Name with signature warm text gradient */}
+        <h1 className="hero-text-anim text-5xl sm:text-7xl md:text-8xl font-black tracking-tight text-[var(--foreground)] mb-4">
+          <span className="text-gradient">G. Lohith</span>
+        </h1>
+
+        {/* Subtitle Roles */}
+        <h2 className="hero-text-anim text-2xl sm:text-3xl md:text-4xl font-extrabold text-stone-800 mb-6 tracking-tight max-w-3xl">
+          AI/ML Engineer & <span className="text-gradient">Full Stack Python Developer</span>
+        </h2>
+
+        {/* Animated Typing Role */}
+        <div className="hero-text-anim h-10 flex items-center justify-center mb-6">
+          <span className="text-base sm:text-xl font-semibold text-slate-600 flex items-center gap-2">
+            Working on:
+            <span className="text-[var(--accent-primary)] font-bold border-b-2 border-[var(--accent-primary)] pb-0.5">
+              {typedText}
+              <span className="animate-pulse text-[var(--accent-primary)] font-mono ml-0.5">|</span>
             </span>
-            <div className="absolute inset-0 h-full w-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-100 transition-opacity z-0" />
-            <span className="absolute inset-0 h-full w-full bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-20 transition-opacity z-0 group-hover:text-white" />
+          </span>
+        </div>
+
+        {/* Honest Grounded Summary */}
+        <p className="hero-text-anim text-base sm:text-lg text-slate-600 max-w-2xl mx-auto mb-8 leading-relaxed font-normal">
+          Building AI applications, FastAPI backends, vector search retrieval systems, and cloud microservices using Python and AWS.
+        </p>
+
+        {/* Floating Tech Badges with continuous phase-offset idle bob */}
+        <div className="hero-text-anim flex flex-wrap items-center justify-center gap-2.5 mb-10">
+          {floatingTech.map((tech) => (
+            <motion.span
+              key={tech.name}
+              animate={{
+                y: [0, -6, 0, 6, 0],
+                rotate: [0, 1.2, 0, -1.2, 0],
+              }}
+              transition={{
+                duration: tech.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: tech.delay,
+              }}
+              whileHover={{ scale: 1.1, translateY: -4 }}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold border ${tech.bg} shadow-sm cursor-default transition-shadow hover:shadow-md`}
+            >
+              {tech.name}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Action Buttons */}
+        <div className="hero-text-anim flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-14">
+          <MagneticButton
+            href="#projects"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-slate-900 text-white font-semibold text-sm shadow-md hover:bg-[var(--accent-primary)] hover:shadow-[0_0_25px_rgba(199,98,43,0.35)] transition-all flex items-center justify-center gap-2 group"
+          >
+            View Flagship Projects <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+          </MagneticButton>
+
+          <a
+            href="#contact"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white border border-stone-200 text-stone-800 font-semibold text-sm shadow-sm hover:bg-stone-50 hover:border-amber-700/30 transition-all flex items-center justify-center gap-2"
+          >
+            <Mail size={16} className="text-[var(--accent-primary)]" /> Contact Me
           </a>
-          
-          <a href="/resume.pdf" download className="w-full sm:w-auto justify-center group px-8 py-3 sm:py-4 glass-card rounded-full font-bold text-base sm:text-lg flex items-center gap-2 hover:bg-white/10 transition-all">
-            <Download size={20} className="text-neon-purple" /> Download Resume
+
+          <a
+            href="/resume.pdf"
+            download
+            className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-amber-50/80 border border-amber-200/80 text-[var(--accent-primary)] font-semibold text-sm hover:bg-amber-100/80 transition-all flex items-center justify-center gap-2"
+          >
+            <Download size={16} /> Resume PDF
           </a>
-        </motion.div>
-        
+        </div>
+
+        {/* Grounded Real Stat Cards */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.2 }}
-          className="mt-16 flex items-center justify-center gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 w-full max-w-3xl"
         >
-          {[
-            { icon: <Github size={24} />, href: "https://github.com/ganipisettylohith", color: "hover:text-white" },
-            { icon: <Linkedin size={24} />, href: "https://www.linkedin.com/in/lohith-ganipisetty", color: "hover:text-[#0077b5]" },
-            { icon: <Mail size={24} />, href: "mailto:lohith.ganipisetty9999@gmail.com", color: "hover:text-neon-blue" }
-          ].map((item, idx) => (
-            <a key={idx} href={item.href} target="_blank" rel="noopener noreferrer" className={`text-gray-500 transition-colors ${item.color}`}>
-              {item.icon}
-            </a>
+          {realStats.map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-stone-200/80 shadow-sm text-center hover:border-[var(--accent-primary)]/40 transition-colors"
+            >
+              <div className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                {stat.value}{stat.suffix}
+              </div>
+              <div className="text-xs text-slate-500 font-medium mt-1">
+                {stat.label}
+              </div>
+            </div>
           ))}
         </motion.div>
+
       </div>
-      
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
-      >
-        <span className="text-xs text-gray-500 mb-2 tracking-widest uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5 }}
-          className="w-1 h-8 rounded-full bg-gradient-to-b from-neon-blue to-transparent"
-        />
-      </motion.div>
     </section>
   );
 }

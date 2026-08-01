@@ -19,13 +19,13 @@ export default function DOSAccordProjectPage() {
         Back to Portfolio
       </Link>
       
-      <div className="glass-card p-8 md:p-12 border-neon-blue/20 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-neon-blue/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
+      <div className="glass-card p-8 md:p-12 border-[var(--accent-primary)]/30 relative overflow-hidden bg-slate-900 text-white rounded-3xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent-primary)]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
         
-        <div className="text-neon-blue text-sm font-bold tracking-widest mb-4">★ HERO PROJECT</div>
+        <div className="text-[var(--accent-primary)] text-sm font-bold tracking-widest mb-4">★ HERO PROJECT</div>
         <h1 className="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
           DOSAccord.ai <br className="hidden md:block"/> 
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-400 to-gray-600 text-2xl md:text-4xl mt-2 block">Smart Sports Analytics Platform</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200 text-2xl md:text-4xl mt-2 block">Smart Sports Analytics Platform</span>
         </h1>
         
         <div className="flex flex-wrap gap-2 mb-10">
@@ -48,7 +48,7 @@ export default function DOSAccordProjectPage() {
               <ul className="space-y-4">
                 {features.map((f, i) => (
                   <li key={i} className="text-gray-300 flex items-start gap-3">
-                    <span className="text-neon-blue mt-1">✓</span> 
+                    <span className="text-[var(--accent-primary)] mt-1 font-bold">✓</span> 
                     <span className="leading-relaxed">{f}</span>
                   </li>
                 ))}
@@ -68,10 +68,10 @@ export default function DOSAccordProjectPage() {
         </div>
         
         <div className="flex flex-wrap gap-4 mt-12 pt-8 border-t border-white/10 relative z-10">
-          <a href="#" className="flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white transition-all font-medium">
+          <a href="https://github.com/ganipisettylohith" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white transition-all font-medium">
             <Github size={20} /> View Source Code
           </a>
-          <a href="#" className="flex items-center justify-center gap-2 px-6 py-3 bg-neon-blue/10 hover:bg-neon-blue/20 border border-neon-blue/30 rounded-lg text-neon-blue transition-all font-medium">
+          <a href="#" className="flex items-center justify-center gap-2 px-6 py-3 bg-[var(--accent-primary)]/20 hover:bg-[var(--accent-primary)]/30 border border-[var(--accent-primary)]/40 rounded-lg text-amber-300 transition-all font-medium">
             <ExternalLink size={20} /> Live Platform Demo
           </a>
         </div>

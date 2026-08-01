@@ -1,283 +1,233 @@
 "use client";
 
-import AnimatedSection from "@/components/layout/AnimatedSection";
-import { ExternalLink, ArrowRight, Trophy, Brain, Lock, LayoutDashboard, MessageSquare, BarChart2, Settings } from "lucide-react";
-import Link from "next/link";
-import { motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { Code2, Github, Monitor, Tablet, Smartphone } from "lucide-react";
+import TiltCard from "@/components/ui/TiltCard";
+import ProjectImage from "@/components/ui/ProjectImage";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@/hooks/useGSAP";
 
-const projects = [
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+const flagshipProjects = [
   {
+    id: "dosaccord-ai",
     title: "DOSAccord.ai",
-    subtitle: "Enterprise Sports Intelligence Platform",
-    desc: "An AI-powered sports platform that lets users query player and team data using natural language.",
-    color: "border-cyan-500",
-    featured: true,
-    features: [
-      "Multi-Agent AI",
-      "Natural Language Search",
-      "Enterprise Ready"
-    ],
-    tech: ["Python", "FastAPI", "PostgreSQL", "RAG", "AWS"],
-    links: {
-      demo: "#",
-      caseStudy: "/projects/dosaccord"
-    }
+    subtitle: "Multi-Agent AI Platform for Sports Intelligence",
+    badge: "Flagship Project",
+    overview: "An AI platform built for sports teams and academies to query player telemetry, coaching tactics, and officiating rules in natural language.",
+    frictionPoint: "The hardest part was query routing. When a user asked 'Why was the player benched after the 60th minute?', the router initially couldn't decide whether to hit the Player Agent or Coach Agent. I ended up writing a lightweight Pydantic classification step with strict fallback rules to keep routing latency under 20ms.",
+    techStack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "PyTorch", "LLM Training", "AWS EC2", "Docker"],
+    githubUrl: "https://github.com/ganipisettylohith",
+    screenshotUrl: undefined,
+    layout: "text-left",
   },
   {
-    title: "E-Commerce Platform",
-    subtitle: "Full-Stack Web Application",
-    desc: "Developed a full-stack e-commerce platform with secure authentication, product management, shopping cart functionality, and a responsive user experience.",
-    color: "border-emerald-500",
-    featured: false,
-    features: ["Authentication", "Product Catalog", "Shopping Cart"],
-    tech: ["Django", "Python", "HTML", "CSS", "JavaScript"],
-    links: { demo: "https://ecommerce-one-jade-93.vercel.app/", caseStudy: "#" }
+    id: "medivision-ai",
+    title: "MediVision AI",
+    subtitle: "Medical Image Analysis & Explainable AI",
+    badge: "Medical AI",
+    overview: "A medical image analysis application that highlights disease regions in radiological scans using CNN classifiers and Grad-CAM heatmaps.",
+    frictionPoint: "Grad-CAM heatmaps originally rendered with noise around the edges of DICOM scans. I added a custom thresholding step in PyTorch to clean up the visual overlay before generating PDF reports.",
+    techStack: ["Python", "PyTorch", "FastAPI", "Grad-CAM", "ReportLab PDF", "React"],
+    githubUrl: "https://github.com/ganipisettylohith",
+    screenshotUrl: "/medivision-ai.png",
+    layout: "image-left",
   },
   {
-    title: "Music Streaming Application",
-    subtitle: "Full-Stack Django Application",
-    desc: "Built a Django-based music streaming platform featuring audio playback, playlist management, and a responsive interface for seamless music discovery.",
-    color: "border-purple-500",
-    featured: false,
-    features: ["Music Library", "Audio Playback", "Playlist Management"],
-    tech: ["Django", "Python", "HTML", "CSS", "JavaScript"],
-    links: { demo: "#", caseStudy: "#" }
-  },
-  {
-    title: "Network Traffic Analyzer",
-    subtitle: "Cybersecurity Monitoring Platform",
-    desc: "Developed a cybersecurity monitoring system that captures and analyzes network traffic to provide protocol inspection and real-time visibility into network activity.",
-    color: "border-orange-500",
-    featured: false,
-    features: ["Packet Capture", "Protocol Analysis", "Interactive Dashboard"],
-    tech: ["Python", "Wireshark", "Networking", "React.js"],
-    links: { demo: "#", caseStudy: "#" }
+    id: "nettrack-live",
+    title: "NetTrack Live",
+    subtitle: "Real-Time Network Packet Inspection",
+    badge: "Networking",
+    overview: "A real-time network monitoring tool that captures live packets, parses protocols (TCP/UDP/HTTP/DNS), and streams traffic analytics to a dashboard.",
+    frictionPoint: "Under high packet volume, Python's single-threaded socket listener started dropping packets. Switching to non-blocking socket buffers with WebSocket broadcasts solved the bottleneck.",
+    techStack: ["Python", "Socket API", "FastAPI", "WebSockets", "Docker", "Linux", "React"],
+    githubUrl: "https://github.com/ganipisettylohith",
+    screenshotUrl: "/nettrack-live.png",
+    layout: "text-left",
   }
 ];
 
 export default function ProjectsSection() {
-  const featuredProject = projects.find(p => p.featured);
-  const standardProjects = projects.filter(p => !p.featured);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [activeViewportTab, setActiveViewportTab] = useState<Record<string, "desktop" | "tablet" | "mobile">>({
+    "dosaccord-ai": "desktop",
+    "medivision-ai": "desktop",
+    "nettrack-live": "desktop"
+  });
+
+  useGSAP(
+    () => {
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (prefersReducedMotion) return;
+
+      if (containerRef.current) {
+        const cards = containerRef.current.querySelectorAll(".project-card-gsap");
+        cards.forEach((card) => {
+          const frame = card.querySelector(".project-frame-gsap");
+          const title = card.querySelector(".project-title-gsap");
+
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: card,
+              start: "top 85%",
+              end: "top 45%",
+              scrub: 0.5,
+            },
+          });
+
+          if (title) {
+            tl.fromTo(title, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.4 });
+          }
+          if (frame) {
+            tl.fromTo(frame, { opacity: 0, scale: 0.95 }, { opacity: 1, scale: 1, duration: 0.4 }, "-=0.2");
+          }
+        });
+      }
+    },
+    { scope: containerRef }
+  );
 
   return (
-    <AnimatedSection id="projects" className="py-24">
-      <div className="text-center mb-16">
-        <h2 className="text-3xl md:text-5xl font-bold mb-4">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-            Engineering
-          </span>{" "}
-          <span className="text-gradient">Highlights</span>
+    <section id="projects" className="py-24 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-xs font-bold uppercase tracking-wider mb-3">
+          <Code2 size={14} /> Flagship Software Projects
+        </div>
+
+        <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--foreground)] tracking-tight mb-3">
+          Projects & <span className="text-gradient">Case Studies</span>
         </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          A collection of AI-powered applications, backend systems, and software solutions designed to solve real-world challenges through thoughtful engineering.
+
+        <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+          Detailed engineering breakdowns of systems I have designed, coded, and deployed.
         </p>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col gap-12 px-4 sm:px-6">
-        
-        {/* HERO PROJECT */}
-        {featuredProject && (
-          <div className={`glass-card relative overflow-hidden bg-[#101014]/60 backdrop-blur-xl border-l-[6px] ${featuredProject.color} shadow-2xl group`}>
-            {/* Background Glow */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
-            
-            {/* Featured Badge */}
-            <div className="absolute top-0 left-6 sm:left-12 px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 text-white text-xs sm:text-sm font-bold tracking-widest uppercase rounded-b-xl shadow-lg flex items-center gap-2 z-20">
-              <Trophy size={16} /> Featured Project
-            </div>
+      {/* Flagship Projects Showcase */}
+      <div ref={containerRef} className="space-y-16">
+        {flagshipProjects.map((project, idx) => {
+          const isTextLeft = project.layout === "text-left";
+          const currentViewport = activeViewportTab[project.id] || "desktop";
 
-            <div className="p-6 sm:p-12 lg:p-16 flex flex-col xl:flex-row gap-12 mt-12">
-              
-              {/* Left Pane - CSS Dashboard Mockup */}
-              <div className="w-full xl:w-5/12 flex flex-col gap-6">
+          return (
+            <div
+              key={project.id}
+              className="project-card-gsap glass-card-premium p-6 sm:p-10 overflow-hidden"
+            >
+              <div className={`flex flex-col ${isTextLeft ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-12 items-start`}>
                 
-                <div className="aspect-[16/10] sm:aspect-[4/3] rounded-2xl overflow-hidden bg-[#0a0a0c] border border-white/10 relative group-hover:border-cyan-500/30 transition-colors duration-500 shadow-2xl flex flex-col">
-                  {/* Top Browser Bar */}
-                  <div className="h-8 border-b border-white/5 flex items-center px-4 gap-2 shrink-0 bg-white/[0.02]">
-                    <div className="flex gap-1.5">
-                      <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                      <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-                    </div>
-                    <div className="mx-auto flex items-center gap-2 px-3 py-1 bg-white/5 rounded-md text-[10px] text-gray-400 font-mono">
-                      <Lock size={10} /> dosaccord.ai/dashboard
-                    </div>
-                  </div>
-                  
-                  {/* Dashboard Layout */}
-                  <div className="flex flex-1 overflow-hidden relative">
-                    {/* Sidebar */}
-                    <div className="w-12 sm:w-16 border-r border-white/5 flex flex-col items-center py-4 gap-4 shrink-0 bg-white/[0.02]">
-                      <div className="w-8 h-8 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400"><LayoutDashboard size={16} /></div>
-                      <div className="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-gray-500"><MessageSquare size={16} /></div>
-                      <div className="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-gray-500"><BarChart2 size={16} /></div>
-                      <div className="w-8 h-8 rounded-lg hover:bg-white/5 flex items-center justify-center text-gray-500"><Settings size={16} /></div>
-                    </div>
-
-                    {/* Main Content Area */}
-                    <div className="flex-1 p-4 sm:p-6 flex flex-col gap-4">
-                      {/* Top Analytics Row */}
-                      <div className="grid grid-cols-3 gap-2 sm:gap-4">
-                        <div className="h-14 sm:h-16 rounded-xl bg-white/5 border border-white/5 p-2 sm:p-3 flex flex-col justify-between">
-                          <span className="text-[8px] sm:text-[10px] text-gray-500 font-mono uppercase tracking-wider">Queries</span>
-                          <span className="text-sm sm:text-lg font-bold text-gray-200">1,492</span>
-                        </div>
-                        <div className="h-14 sm:h-16 rounded-xl bg-white/5 border border-white/5 p-2 sm:p-3 flex flex-col justify-between">
-                          <span className="text-[8px] sm:text-[10px] text-gray-500 font-mono uppercase tracking-wider">Latency</span>
-                          <span className="text-sm sm:text-lg font-bold text-cyan-400">180ms</span>
-                        </div>
-                        <div className="h-14 sm:h-16 rounded-xl bg-white/5 border border-white/5 p-2 sm:p-3 flex flex-col justify-between">
-                          <span className="text-[8px] sm:text-[10px] text-gray-500 font-mono uppercase tracking-wider">Agents</span>
-                          <span className="text-sm sm:text-lg font-bold text-green-400">3 Active</span>
-                        </div>
-                      </div>
-                      
-                      {/* Chart Area */}
-                      <div className="flex-1 rounded-xl bg-white/5 border border-white/5 p-4 flex flex-col gap-3 relative overflow-hidden">
-                        <div className="flex items-center gap-2 mb-2">
-                           <Brain size={14} className="text-cyan-500" />
-                           <span className="text-[10px] sm:text-xs font-semibold text-gray-300">Swarm Activity</span>
-                        </div>
-                        
-                        {/* Mock Graph Bars */}
-                        <div className="flex items-end gap-1.5 sm:gap-2 h-full opacity-60">
-                          <div className="w-full bg-cyan-500/20 rounded-t-sm h-[30%]" />
-                          <div className="w-full bg-cyan-500/40 rounded-t-sm h-[60%]" />
-                          <div className="w-full bg-cyan-500/60 rounded-t-sm h-[40%]" />
-                          <div className="w-full bg-cyan-500/30 rounded-t-sm h-[80%]" />
-                          <div className="w-full bg-cyan-500/80 rounded-t-sm h-[100%]" />
-                          <div className="w-full bg-cyan-500/50 rounded-t-sm h-[50%]" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Terminal Overlay */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 w-[90%] max-w-[280px] sm:max-w-sm rounded-lg bg-[#000]/80 backdrop-blur-md border border-white/10 p-3 shadow-xl z-20">
-                    <div className="flex flex-col gap-1.5 font-mono text-[8px] sm:text-[10px]">
-                      <motion.div 
-                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.3 }} viewport={{ once: true }}
-                        className="text-gray-400"
-                      >
-                        <span className="text-gray-500 mr-2">❯</span>Player Agent initialized
-                      </motion.div>
-                      <motion.div 
-                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.3 }} viewport={{ once: true }}
-                        className="text-gray-400"
-                      >
-                        <span className="text-gray-500 mr-2">❯</span>Searching vector database...
-                      </motion.div>
-                      <motion.div 
-                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ delay: 2.2, duration: 0.3 }} viewport={{ once: true }}
-                        className="text-cyan-400"
-                      >
-                        <span className="text-cyan-500 mr-2">✓</span>Response generated
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Floating Status Cards */}
-                  <div className="absolute top-12 -right-2 sm:-right-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 flex items-center gap-2 shadow-xl z-20">
-                     <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-green-500" />
-                     <span className="text-[8px] sm:text-[10px] font-mono text-gray-300">AI Agents Online</span>
-                  </div>
-                  <div className="absolute top-28 -left-2 sm:-left-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg py-1.5 sm:py-2 px-2 sm:px-3 flex items-center gap-1.5 shadow-xl z-20">
-                     <span className="text-cyan-500 text-[10px]">🧠</span>
-                     <span className="text-[8px] sm:text-[10px] font-mono text-gray-300">RAG Active</span>
-                  </div>
-
-                </div>
-              </div>
-
-              {/* Right Pane - Content */}
-              <div className="w-full xl:w-7/12 flex flex-col justify-center">
-                <h3 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-2 tracking-tight">
-                  {featuredProject.title}
-                </h3>
-                <p className="text-xl md:text-2xl text-cyan-400 font-medium mb-6 tracking-wide">{featuredProject.subtitle}</p>
-                
-                <p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-8 font-light">
-                  {featuredProject.desc}
-                </p>
-
-                <div className="flex flex-wrap gap-3 mb-10">
-                  {featuredProject.tech.map((item, i) => (
-                    <span key={i} className="text-sm font-medium px-4 py-2 bg-white/5 text-gray-300 rounded-lg border border-white/10 shadow-inner">
-                      {item}
+                {/* Content Side */}
+                <div className="flex-1 space-y-5">
+                  <div className="flex items-center gap-3">
+                    <span className="px-3.5 py-1 rounded-full bg-stone-100 text-[var(--accent-primary)] text-xs font-extrabold border border-stone-200">
+                      {project.badge}
                     </span>
-                  ))}
+                    <span className="text-xs font-mono font-bold text-slate-400">
+                      0{idx + 1}
+                    </span>
+                  </div>
+
+                  <div className="project-title-gsap">
+                    <h3 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm font-semibold text-slate-500 mt-1">
+                      {project.subtitle}
+                    </p>
+                  </div>
+
+                  {/* Project Overview Paragraph */}
+                  <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+                    {project.overview}
+                  </p>
+
+                  {/* Engineering Friction Point Callout */}
+                  {project.frictionPoint && (
+                    <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-xs sm:text-sm text-amber-900 leading-relaxed font-medium">
+                      <span className="font-bold text-[var(--accent-primary)] block mb-1">Engineering Friction Point:</span>
+                      {project.frictionPoint}
+                    </div>
+                  )}
+
+                  {/* GitHub Action Link */}
+                  <div className="pt-2">
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--foreground)] text-white font-semibold text-xs sm:text-sm hover:bg-[var(--accent-primary)] transition-colors shadow-md"
+                    >
+                      <Github size={16} /> GitHub Code
+                    </a>
+                  </div>
                 </div>
 
-                <div className="mb-12">
-                  <ul className="space-y-4">
-                    {featuredProject.features.map((item, i) => (
-                      <li key={i} className="text-base md:text-lg text-gray-300 flex items-center gap-3">
-                        <span className="text-cyan-500 font-bold shrink-0">✓</span> 
-                        <span className="leading-relaxed font-medium">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Screenshot Switcher Window Frame (Desktop / Tablet / Mobile) wrapped entirely in TiltCard */}
+                <div className="project-frame-gsap flex-1 w-full">
+                  <TiltCard className="w-full">
+                    <div className="space-y-4">
+                      {/* Viewport Switcher Tabs */}
+                      <div className="flex items-center gap-1.5 bg-stone-100 p-1.5 rounded-2xl border border-stone-200 w-fit shadow-sm">
+                        <button
+                          onClick={() => setActiveViewportTab((prev) => ({ ...prev, [project.id]: "desktop" }))}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                            currentViewport === "desktop" ? "bg-white text-[var(--accent-primary)] shadow-sm" : "text-slate-600 hover:bg-white/50"
+                          }`}
+                        >
+                          <Monitor size={14} /> Desktop
+                        </button>
+                        <button
+                          onClick={() => setActiveViewportTab((prev) => ({ ...prev, [project.id]: "tablet" }))}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                            currentViewport === "tablet" ? "bg-white text-[var(--accent-primary)] shadow-sm" : "text-slate-600 hover:bg-white/50"
+                          }`}
+                        >
+                          <Tablet size={14} /> Tablet
+                        </button>
+                        <button
+                          onClick={() => setActiveViewportTab((prev) => ({ ...prev, [project.id]: "mobile" }))}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                            currentViewport === "mobile" ? "bg-white text-[var(--accent-primary)] shadow-sm" : "text-slate-600 hover:bg-white/50"
+                          }`}
+                        >
+                          <Smartphone size={14} /> Mobile
+                        </button>
+                      </div>
+
+                      {/* Browser Frame Window */}
+                      <div className="bg-stone-900 rounded-2xl border border-stone-800 shadow-2xl overflow-hidden hover:border-[var(--accent-primary)]/40 transition-colors">
+                        {/* Window Header */}
+                        <div className="bg-stone-950 px-4 py-3 flex items-center justify-between border-b border-stone-800">
+                          <div className="flex items-center gap-2">
+                            <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
+                            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
+                            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                          </div>
+                          <span className="text-[11px] font-mono text-stone-400 truncate max-w-[220px]">
+                            https://{project.id}.app
+                          </span>
+                          <div className="w-8" />
+                        </div>
+
+                        {/* Viewport Content */}
+                        <div className="p-4 sm:p-5">
+                          <ProjectImage src={project.screenshotUrl} alt={project.title} />
+                        </div>
+                      </div>
+                    </div>
+                  </TiltCard>
                 </div>
 
-                <div className="mt-auto pt-6 border-t border-white/10 flex flex-wrap gap-4 items-center">
-                  <a href={featuredProject.links.demo} className="flex items-center gap-2 px-6 py-3 md:py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-white font-medium transition-colors text-sm md:text-base">
-                    <ExternalLink size={18} /> Live Demo
-                  </a>
-                  <Link href={featuredProject.links.caseStudy || "#"} className="flex items-center justify-center gap-2 px-8 py-3 md:py-4 bg-cyan-500 hover:bg-cyan-400 border border-cyan-400 rounded-xl text-black font-extrabold transition-colors text-sm md:text-base group shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]">
-                    Case Study <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* STANDARD PROJECTS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
-          {standardProjects.map((project, idx) => (
-            <div key={idx} className={`glass-card p-8 flex flex-col h-full bg-[#101014]/55 border-l-[4px] ${project.color} transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:bg-white/[0.02]`}>
-              
-              <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-gray-400 transition-colors tracking-tight">
-                {project.title}
-              </h3>
-              <p className="text-sm font-medium text-gray-400 mb-5">{project.subtitle}</p>
-              
-              <p className="text-gray-300 text-sm leading-relaxed mb-6">
-                {project.desc}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-8">
-                {project.tech.map((item, i) => (
-                  <span key={i} className="text-xs font-medium px-3 py-1.5 bg-white/5 text-gray-300 rounded-lg border border-white/10">
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mb-8 bg-black/20 p-4 rounded-xl border border-white/5">
-                <ul className="space-y-2.5">
-                  {project.features.map((f, i) => (
-                    <li key={i} className="text-xs text-gray-300 flex items-start gap-2">
-                      <span className="text-gray-500 mt-0.5 shrink-0">✓</span> 
-                      <span className="leading-relaxed">{f}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-auto pt-5 border-t border-white/10 flex items-center gap-4">
-                <a href={project.links.demo} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium">
-                  <ExternalLink size={16} /> Live Demo
-                </a>
-                <Link href={project.links.caseStudy || "#"} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 text-sm font-medium ml-auto group">
-                  Case Study <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-
+          );
+        })}
       </div>
-    </AnimatedSection>
+    </section>
   );
 }

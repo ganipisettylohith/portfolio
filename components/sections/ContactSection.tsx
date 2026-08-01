@@ -1,62 +1,223 @@
-import AnimatedSection from "@/components/layout/AnimatedSection";
-import { Mail, Linkedin, Github, FileText, ArrowRight } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Mail, Send, Copy, Check, Github, Linkedin, FileText, MapPin, Sparkles } from "lucide-react";
 
 export default function ContactSection() {
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const emailAddress = "lohith.ganipisetty9999@gmail.com";
+
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText(emailAddress);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 3000);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormSubmitted(true);
+    setTimeout(() => {
+      setFormSubmitted(false);
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }, 4000);
+  };
+
   return (
-    <AnimatedSection id="contact" className="pt-16 pb-8">
-      <div className="glass-card p-8 md:p-12 max-w-4xl mx-auto relative overflow-hidden text-center border-t border-white/5">
-        {/* Background Gradients */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-neon-blue via-neon-purple to-neon-blue opacity-50" />
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-neon-blue/10 blur-[100px] rounded-full" />
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-neon-purple/10 blur-[100px] rounded-full" />
+    <section id="contact" className="py-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-xs font-semibold uppercase tracking-wider mb-3">
+          <Mail size={14} /> Get in Touch
+        </div>
 
-        <h2 className="text-3xl md:text-5xl font-bold mb-4 relative z-10 tracking-tight">
-          Let's <span className="text-gradient">Connect</span>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight mb-3">
+          Let's Connect
         </h2>
-        
-        <p className="text-gray-400 mb-8 max-w-lg mx-auto relative z-10 text-base md:text-lg">
-          Interested in collaborating, discussing AI, or exploring new opportunities? I'd love to hear from you.
+
+        <p className="text-slate-600 text-sm sm:text-base">
+          Open for full-time opportunities, internship roles, and technical AI/Python engineering collaborations.
         </p>
-
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-full text-green-400 text-sm font-medium mb-10 relative z-10">
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_#22c55e]" />
-          Available for Full-Time Opportunities
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto relative z-10 mb-10">
-          <a href="mailto:lohith.ganipisetty9999@gmail.com" className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 group">
-            <Mail size={24} className="text-neon-blue group-hover:scale-110 transition-transform" />
-            <span className="text-gray-300 font-medium text-sm">Email</span>
-          </a>
-          
-          <a href="https://linkedin.com/in/lohith-ganipisetty" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 group">
-            <Linkedin size={24} className="text-[#0077b5] group-hover:scale-110 transition-transform" />
-            <span className="text-gray-300 font-medium text-sm">LinkedIn</span>
-          </a>
-          
-          <a href="https://github.com/ganipisettylohith" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 group">
-            <Github size={24} className="text-gray-400 group-hover:text-white group-hover:scale-110 transition-all" />
-            <span className="text-gray-300 font-medium text-sm">GitHub</span>
-          </a>
-          
-          <a href="/resume.pdf" download className="flex flex-col items-center justify-center gap-3 p-6 bg-white/5 border border-white/5 rounded-xl hover:bg-white/10 transition-all hover:-translate-y-1 group">
-            <FileText size={24} className="text-neon-purple group-hover:scale-110 transition-transform" />
-            <span className="text-gray-300 font-medium text-sm">Resume</span>
-          </a>
-        </div>
-        
-        <div className="flex justify-center relative z-10">
-          <a href="mailto:lohith.ganipisetty9999@gmail.com" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black rounded-full font-bold text-base md:text-lg hover:bg-gray-200 transition-all hover:scale-105 active:scale-95 group shadow-[0_0_20px_rgba(255,255,255,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-            Get in Touch <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </a>
-        </div>
       </div>
 
-      {/* Footer Area */}
-      <footer className="max-w-4xl mx-auto mt-16 pt-8 border-t border-white/10 text-center text-gray-500 text-sm flex flex-col gap-2">
-        <p className="font-medium text-gray-400">© 2026 G. Lohith</p>
-        <p>Built with Next.js • TypeScript • Tailwind CSS • Framer Motion</p>
-      </footer>
-    </AnimatedSection>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left Column: Contact Cards & Quick Copy */}
+        <div className="lg:col-span-5 space-y-5">
+          {/* Email Copy Card */}
+          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
+              Direct Email
+            </span>
+            <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-200">
+              <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">
+                {emailAddress}
+              </span>
+              <button
+                onClick={handleCopyEmail}
+                className="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs font-bold text-[var(--accent-primary)] hover:bg-amber-50 transition-colors shrink-0 flex items-center gap-1 shadow-sm"
+              >
+                {copiedEmail ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                {copiedEmail ? "Copied!" : "Copy"}
+              </button>
+            </div>
+          </div>
+
+          {/* Location & Status Card */}
+          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-2xl bg-amber-50 text-[var(--accent-primary)]">
+                <MapPin size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--foreground)]">Location & Availability</h4>
+                <p className="text-xs text-slate-500 font-medium">India • Hybrid / Remote / On-Site</p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-2xl bg-emerald-50 text-[var(--accent-secondary)]">
+                <Sparkles size={20} />
+              </div>
+              <div>
+                <h4 className="text-sm font-bold text-[var(--foreground)]">Current Role</h4>
+                <p className="text-xs text-slate-500 font-medium">Technical Intern • Dream Olympic Sports</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media Buttons */}
+          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-4">
+              Social Links
+            </span>
+            <div className="grid grid-cols-2 gap-3">
+              <a
+                href="https://github.com/ganipisettylohith"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[var(--foreground)] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm"
+              >
+                <Github size={16} /> GitHub
+              </a>
+
+              <a
+                href="https://www.linkedin.com/in/lohith-ganipisetty"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[#0077b5] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm"
+              >
+                <Linkedin size={16} /> LinkedIn
+              </a>
+
+              <a
+                href={`mailto:${emailAddress}`}
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-[var(--accent-primary)] font-bold text-xs hover:bg-amber-100 transition-colors"
+              >
+                <Mail size={16} /> Email Me
+              </a>
+
+              <a
+                href="/resume.pdf"
+                download
+                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 font-bold text-xs hover:bg-stone-200 transition-colors"
+              >
+                <FileText size={16} /> Resume
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column: Contact Form */}
+        <div className="lg:col-span-7 glass-card-premium p-8 sm:p-10 rounded-3xl border border-[var(--card-border)] shadow-xl bg-white">
+          {formSubmitted ? (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+                <Check size={32} />
+              </div>
+              <h3 className="text-2xl font-bold text-[var(--foreground)] mb-2">Message Sent!</h3>
+              <p className="text-sm text-slate-600 max-w-md mx-auto">
+                Thank you for reaching out. I'll get back to you shortly.
+              </p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <h3 className="text-xl font-bold text-[var(--foreground)] mb-2">Send a Message</h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="John Doe"
+                    className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                    Your Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="john@example.com"
+                    className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Subject
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.subject}
+                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                  placeholder="AI Engineering Opportunity / Inquiry"
+                  className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  Message
+                </label>
+                <textarea
+                  rows={4}
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  placeholder="Hi Lohith, I'd like to discuss a project..."
+                  className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all resize-none"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-4 rounded-2xl bg-[var(--foreground)] text-white font-extrabold text-sm hover:bg-[var(--accent-primary)] transition-colors flex items-center justify-center gap-2 shadow-md"
+              >
+                <Send size={16} /> Send Message
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
   );
 }

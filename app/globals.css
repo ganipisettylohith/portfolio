@@ -4,78 +4,69 @@
 
 @layer base {
   :root {
-    --background: #000000;
-    --foreground: #ffffff;
-    
-    --card: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --neon-blue: #00f0ff;
-    --neon-purple: #8a2be2;
+    --background: #FAF8F5;
+    --foreground: #1C1B1A;
+    --card: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(224, 218, 208, 0.8);
+    --accent-primary: #C7622B;
+    --accent-secondary: #2F6E5C;
+    --accent-tertiary: #D9A441;
   }
 }
 
 @layer base {
   * {
-    @apply border-[rgba(255,255,255,0.08)];
+    @apply border-stone-200/80;
   }
+  
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
   body {
-    @apply bg-black text-white font-sans antialiased overflow-x-hidden selection:bg-neon-purple/30 selection:text-white;
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply font-sans antialiased overflow-x-hidden selection:bg-amber-500/20 selection:text-amber-900;
   }
 }
 
 @layer utilities {
-  .glass-card {
-    @apply bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_0_15px_rgba(0,0,0,0.5)] overflow-hidden;
+  .glass-card-light {
+    @apply bg-white/40 backdrop-blur-md border border-white/60 rounded-2xl shadow-sm hover:shadow-lg hover:bg-white/55 hover:border-white/80 transition-all duration-300;
   }
   
-  .glass-card:hover {
-    @apply border-white/20 shadow-[0_0_30px_rgba(0,240,255,0.1)];
+  .glass-card-premium {
+    @apply bg-white/45 backdrop-blur-lg border border-white/60 rounded-3xl shadow-lg hover:bg-white/60 hover:border-white/80 transition-all duration-300;
+  }
+
+  .glass-badge {
+    @apply bg-white/50 backdrop-blur-md border border-white/60 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-neon-blue via-neon-purple to-neon-blue bg-[length:200%_auto] animate-shimmer;
-  }
-
-  .glow-effect {
-    position: relative;
-  }
-
-  .glow-effect::before {
-    content: '';
-    position: absolute;
-    top: -1px; left: -1px; right: -1px; bottom: -1px;
-    background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple));
-    z-index: -1;
-    border-radius: inherit;
-    filter: blur(10px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .glow-effect:hover::before {
-    opacity: 0.5;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#C7622B] via-[#D9A441] to-[#2F6E5C] bg-[length:200%_auto] animate-shimmer;
   }
 
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-/* Custom Scrollbar */
+/* Warm Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: #FAF8F5;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background: #D6CEC3;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.4);
+  background: #C7622B;
 }

@@ -1,90 +1,62 @@
-import AnimatedSection from "@/components/layout/AnimatedSection";
-import { Bot, CloudCog, Database, ShieldCheck } from "lucide-react";
+"use client";
+
+import { motion } from "framer-motion";
+import { Sparkles } from "lucide-react";
+import TiltCard from "@/components/ui/TiltCard";
+
+const specializations = [
+  { name: "AI & Multi-Agent Systems", desc: "Building multi-agent routing networks, Pydantic classification, and domain vector retrieval workflows." },
+  { name: "Machine Learning & Vision", desc: "PyTorch deep learning, CNN image classification, and Grad-CAM visual heatmaps." },
+  { name: "LLM Fine-Tuning", desc: "Supervised fine-tuning and QLoRA quantization on domain-specific Q&A datasets." },
+  { name: "FastAPI Backend", desc: "Asynchronous Python REST APIs, Pydantic validation schemas, and Auth0 JWT security." },
+  { name: "PostgreSQL & Vector", desc: "Relational data modeling, SQL query tuning, and pgvector HNSW similarity search." },
+  { name: "AWS Cloud & DevOps", desc: "AWS EC2 GPU instance setup, S3 storage, Docker containerization, and Linux administration." },
+  { name: "Frontend & UI Engineering", desc: "Building interfaces with Next.js, React, TypeScript, and Tailwind CSS, with motion work in Framer Motion and GSAP." },
+];
 
 export default function AboutSection() {
-  const features = [
-    {
-      icon: <Bot className="text-neon-blue" size={24} />,
-      title: "AI Engineering",
-      desc: "Enterprise AI • Multi-Agent • RAG",
-    },
-    {
-      icon: <CloudCog className="text-neon-purple" size={24} />,
-      title: "Full Stack & Cloud",
-      desc: "FastAPI • Next.js • AWS • REST APIs",
-    },
-    {
-      icon: <Database className="text-neon-cyan" size={24} />,
-      title: "Database Architecture",
-      desc: "PostgreSQL • pgvector • Vector Search",
-    },
-    {
-      icon: <ShieldCheck className="text-neon-blue" size={24} />,
-      title: "Cyber Security",
-      desc: "Authentication • Secure APIs",
-    },
-  ];
-
-  const chips = [
-    "Python", "FastAPI", "Next.js", "PostgreSQL", 
-    "AWS", "Docker", "Auth0", "LangChain", 
-    "Git", "REST APIs"
-  ];
-
-  const stats = [
-    { value: "15+", label: "AI Agents" },
-    { value: "10+", label: "Projects" },
-    { value: "4+", label: "Technologies" },
-    { value: "2025", label: "Graduate" },
-  ];
-
   return (
-    <AnimatedSection id="about">
-      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
-        <div className="w-full lg:w-1/2">
-          <h2 className="text-4xl sm:text-5xl md:text-[48px] font-bold mb-6 leading-tight">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
-              About
-            </span>{" "}
-            <span className="text-gradient">Me</span>
-          </h2>
-          
-          <div className="glass-card p-8">
-            <p className="text-base sm:text-[17px] text-gray-300 leading-relaxed">
-              Technical Developer building intelligent, scalable, and production-ready AI applications using Large Language Models (LLMs), Multi-Agent Systems, Retrieval-Augmented Generation (RAG), FastAPI, PostgreSQL, and AWS. Dedicated to creating robust backend architectures and innovative AI solutions for real-world challenges.
-            </p>
-            
-            <div className="flex flex-wrap gap-2 mt-6">
-              {chips.map(chip => (
-                <span key={chip} className="px-3 py-1 text-sm bg-white/5 border border-white/10 rounded-full text-gray-300 hover:bg-white/10 hover:text-white transition-colors cursor-default">
-                  {chip}
-                </span>
-              ))}
-            </div>
+    <section id="about" className="py-20 px-4 sm:px-6 relative z-10 max-w-6xl mx-auto">
+      {/* Header */}
+      <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-xs font-bold uppercase tracking-wider mb-3">
+          <Sparkles size={14} /> Background & Focus
+        </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-8 border-t border-white/10">
-              {stats.map((stat, idx) => (
-                <div key={idx}>
-                  <h4 className="text-2xl font-bold text-white">{stat.value}</h4>
-                  <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        
-        <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {features.map((feature, idx) => (
-            <div key={idx} className="glass-card p-6 group hover:-translate-y-2 transition-transform duration-300">
-              <div className="mb-4 p-3 rounded-xl bg-white/5 inline-block group-hover:scale-110 transition-transform">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl sm:text-[24px] font-bold text-white mb-2 leading-tight">{feature.title}</h3>
-              <p className="text-sm sm:text-[16px] text-gray-400 leading-relaxed">{feature.desc}</p>
-            </div>
-          ))}
-        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight mb-3">
+          AI, Full-Stack & <span className="text-gradient">UI Engineering Focus</span>
+        </h2>
+
+        <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
+          I am a <strong>Technical Intern</strong> at Dream Olympic Sports Pvt Ltd specializing in Artificial Intelligence and Full-Stack development. My day-to-day work involves writing FastAPI microservices, building multi-agent AI tools, crafting Next.js/React frontends, fine-tuning LLMs, and deploying cloud applications to AWS.
+        </p>
       </div>
-    </AnimatedSection>
+
+      {/* Specializations Grid (7 Cards cleanly laid out) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {specializations.map((spec, idx) => (
+          <div
+            key={spec.name}
+            className={`${idx === 6 ? "md:col-span-2 lg:col-span-1" : ""}`}
+          >
+            <TiltCard className="h-full">
+              <div className="h-full glass-card-light p-6 flex flex-col justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold text-slate-400 block mb-2">
+                    0{idx + 1}
+                  </span>
+                  <h3 className="text-lg font-bold text-[var(--foreground)] mb-2">
+                    {spec.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                    {spec.desc}
+                  </p>
+                </div>
+              </div>
+            </TiltCard>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
