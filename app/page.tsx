@@ -28,6 +28,37 @@ try {
   if (fs.existsSync(netSrc) && !fs.existsSync(netDest)) {
     fs.copyFileSync(netSrc, netDest);
   }
+
+  // Cleanup: Move legacy/unwanted files to unwanted_backup/ folder
+  const rootDir = process.cwd();
+  const backupDir = path.join(rootDir, "unwanted_backup");
+  if (!fs.existsSync(backupDir)) {
+    fs.mkdirSync(backupDir);
+  }
+
+  const filesToMove = [
+    "components/sections/AIEngineeringLabSection.tsx",
+    "components/sections/AIGalaxySection.tsx",
+    "components/sections/AIJourneyRoadSection.tsx",
+    "components/sections/AIResearchSection.tsx",
+    "components/sections/AITelemetryDashboardSection.tsx",
+    "components/sections/CertificationsSection.tsx",
+    "components/sections/LLMTrainingSection.tsx",
+    "components/sections/ResumeSection.tsx",
+    "components/ProjectCard.js",
+    "components/ProjectCard.module.css",
+    "components/Projects.js",
+    "components/Projects.module.css",
+    "components/ui/CaseStudyModal.tsx"
+  ];
+
+  filesToMove.forEach(relPath => {
+    const src = path.join(rootDir, relPath);
+    if (fs.existsSync(src)) {
+      const dest = path.join(backupDir, path.basename(relPath));
+      fs.renameSync(src, dest);
+    }
+  });
 } catch (e) {
   // Fallback gracefully
 }

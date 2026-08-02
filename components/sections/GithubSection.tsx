@@ -64,7 +64,7 @@ export default function GithubSection() {
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white/90 backdrop-blur-xl p-6 sm:p-8 rounded-3xl mb-10 border border-[var(--card-border)] shadow-md">
+      <div className="glass-card-premium p-6 sm:p-8 mb-10">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center sm:text-left">
             <div className="w-14 h-14 rounded-full bg-[var(--foreground)] text-white font-extrabold text-xl flex items-center justify-center shadow-md">
@@ -91,13 +91,13 @@ export default function GithubSection() {
         </div>
 
         {/* Primary Technologies Row */}
-        <div className="mt-6 pt-6 border-t border-stone-200 flex flex-wrap items-center justify-between gap-4">
+        <div className="mt-6 pt-6 border-t border-stone-200/60 flex flex-wrap items-center justify-between gap-4">
           <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
             Primary Technologies Used
           </span>
           <div className="flex flex-wrap gap-2">
             {topTechnologies.map((tech) => (
-              <span key={tech} className="px-3 py-1 rounded-full bg-stone-100 text-slate-700 text-xs font-bold border border-stone-200">
+              <span key={tech} className="glass-badge">
                 {tech}
               </span>
             ))}
@@ -127,7 +127,7 @@ export default function GithubSection() {
                 href={repo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="h-full bg-white/90 backdrop-blur-xl p-6 rounded-2xl border border-[var(--card-border)] hover:border-[var(--accent-primary)]/40 flex flex-col justify-between block group transition-all"
+                className="h-full glass-card-light p-6 flex flex-col justify-between block group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
@@ -143,8 +143,8 @@ export default function GithubSection() {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-500 pt-4 border-t border-stone-200">
-                  <span className="px-2.5 py-0.5 rounded-full bg-stone-100 text-slate-700 font-mono text-[11px] font-bold border border-stone-200">
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-500 pt-4 border-t border-stone-200/60">
+                  <span className="glass-badge font-mono text-[10px] font-bold">
                     {repo.language}
                   </span>
                   <span className="text-[var(--accent-primary)] font-bold flex items-center gap-1">

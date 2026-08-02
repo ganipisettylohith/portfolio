@@ -55,7 +55,7 @@ export default function AdditionalProjectsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
-                className="h-full bg-white/90 backdrop-blur-xl p-6 rounded-3xl border border-stone-200/80 hover:border-[var(--accent-primary)]/40 flex flex-col justify-between"
+                className="h-full glass-card-light p-6 flex flex-col justify-between"
               >
                 <div>
                   {/* Category badge & Icon */}

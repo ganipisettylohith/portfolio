@@ -1,41 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles } from "lucide-react";
+import { Sparkles, HelpCircle } from "lucide-react";
 
 interface SkillNode {
   id: string;
   name: string;
   category: "ai" | "backend" | "cloud" | "database" | "security" | "frontend";
+  x: number;
+  y: number;
   relatedIds: string[];
 }
 
 const skillNodes: SkillNode[] = [
-  { id: "python", name: "Python", category: "backend", relatedIds: ["fastapi", "pytorch", "postgresql", "lora", "rag", "django"] },
-  { id: "fastapi", name: "FastAPI", category: "backend", relatedIds: ["python", "postgresql", "auth0", "docker", "aws", "rag"] },
-  { id: "pytorch", name: "PyTorch", category: "ai", relatedIds: ["python", "lora", "opencv", "gradcam"] },
-  { id: "lora", name: "LLM Training & LoRA", category: "ai", relatedIds: ["pytorch", "python", "aws"] },
-  { id: "rag", name: "RAG & Vector Search", category: "ai", relatedIds: ["pgvector", "postgresql", "fastapi", "python"] },
-  { id: "multiagent", name: "Multi-Agent Systems", category: "ai", relatedIds: ["fastapi", "python", "rag"] },
-  { id: "postgresql", name: "PostgreSQL", category: "database", relatedIds: ["pgvector", "fastapi", "python", "sql"] },
-  { id: "pgvector", name: "pgvector", category: "database", relatedIds: ["postgresql", "rag"] },
-  { id: "sql", name: "SQL", category: "database", relatedIds: ["postgresql", "python"] },
-  { id: "aws", name: "AWS EC2", category: "cloud", relatedIds: ["docker", "linux", "fastapi"] },
-  { id: "docker", name: "Docker", category: "cloud", relatedIds: ["aws", "fastapi", "linux", "git"] },
-  { id: "linux", name: "Linux (Ubuntu)", category: "cloud", relatedIds: ["aws", "docker"] },
-  { id: "git", name: "Git", category: "cloud", relatedIds: ["docker", "python"] },
-  { id: "networking", name: "Networking", category: "backend", relatedIds: ["fastapi", "python", "docker"] },
-  { id: "auth0", name: "Auth0 & OAuth2", category: "security", relatedIds: ["fastapi", "jwt"] },
-  { id: "jwt", name: "JWT Security", category: "security", relatedIds: ["auth0", "fastapi"] },
-  { id: "react", name: "React", category: "frontend", relatedIds: ["nextjs", "typescript", "tailwind"] },
-  { id: "nextjs", name: "Next.js", category: "frontend", relatedIds: ["react", "typescript", "tailwind"] },
-  { id: "typescript", name: "TypeScript", category: "frontend", relatedIds: ["nextjs", "react"] },
-  { id: "tailwind", name: "Tailwind CSS", category: "frontend", relatedIds: ["nextjs", "react"] },
-  { id: "django", name: "Django", category: "backend", relatedIds: ["python", "postgresql", "sql"] },
-  { id: "opencv", name: "OpenCV", category: "ai", relatedIds: ["pytorch", "gradcam", "python"] },
-  { id: "gradcam", name: "Grad-CAM", category: "ai", relatedIds: ["opencv", "pytorch"] }
+  // AI & ML (Cluster Left)
+  { id: "python", name: "Python", category: "backend", x: 280, y: 220, relatedIds: ["fastapi", "pytorch", "postgresql", "lora", "rag", "django", "networking", "git"] },
+  { id: "pytorch", name: "PyTorch", category: "ai", x: 220, y: 120, relatedIds: ["python", "lora", "opencv", "gradcam"] },
+  { id: "lora", name: "LLM Training", category: "ai", x: 380, y: 120, relatedIds: ["pytorch", "python", "aws"] },
+  { id: "rag", name: "RAG & Vector", category: "ai", x: 320, y: 320, relatedIds: ["pgvector", "postgresql", "fastapi", "python"] },
+  { id: "multiagent", name: "AI Agents", category: "ai", x: 190, y: 280, relatedIds: ["fastapi", "python", "rag"] },
+  { id: "opencv", name: "OpenCV", category: "ai", x: 120, y: 110, relatedIds: ["pytorch", "gradcam", "python"] },
+  { id: "gradcam", name: "Grad-CAM", category: "ai", x: 140, y: 190, relatedIds: ["opencv", "pytorch"] },
+
+  // Backend & Core (Center)
+  { id: "fastapi", name: "FastAPI", category: "backend", x: 500, y: 270, relatedIds: ["python", "postgresql", "auth0", "docker", "aws", "rag", "multiagent", "networking", "react", "nextjs", "git"] },
+  { id: "django", name: "Django", category: "backend", x: 450, y: 190, relatedIds: ["python", "postgresql", "sql"] },
+  { id: "networking", name: "Networking", category: "backend", x: 420, y: 360, relatedIds: ["fastapi", "python", "docker"] },
+
+  // Databases (Cluster Bottom Left)
+  { id: "postgresql", name: "PostgreSQL", category: "database", x: 320, y: 460, relatedIds: ["pgvector", "fastapi", "python", "sql", "django"] },
+  { id: "pgvector", name: "pgvector", category: "database", x: 210, y: 440, relatedIds: ["postgresql", "rag"] },
+  { id: "sql", name: "SQL", category: "database", x: 430, y: 500, relatedIds: ["postgresql", "python"] },
+
+  // Security (Cluster Top Right)
+  { id: "auth0", name: "Auth0", category: "security", x: 630, y: 180, relatedIds: ["fastapi", "jwt", "react"] },
+  { id: "jwt", name: "JWT Sec", category: "security", x: 720, y: 150, relatedIds: ["auth0", "fastapi"] },
+
+  // Cloud & DevOps (Cluster Bottom Right)
+  { id: "aws", name: "AWS EC2", category: "cloud", x: 610, y: 370, relatedIds: ["docker", "linux", "fastapi", "lora"] },
+  { id: "docker", name: "Docker", category: "cloud", x: 700, y: 330, relatedIds: ["aws", "fastapi", "linux", "git", "networking"] },
+  { id: "linux", name: "Linux", category: "cloud", x: 580, y: 460, relatedIds: ["aws", "docker"] },
+  { id: "git", name: "Git", category: "cloud", x: 700, y: 450, relatedIds: ["docker", "python", "typescript", "fastapi"] },
+
+  // Frontend (Cluster Far Right)
+  { id: "react", name: "React", category: "frontend", x: 790, y: 250, relatedIds: ["nextjs", "typescript", "tailwind", "fastapi", "auth0"] },
+  { id: "nextjs", name: "Next.js", category: "frontend", x: 880, y: 240, relatedIds: ["react", "typescript", "tailwind", "fastapi"] },
+  { id: "typescript", name: "TypeScript", category: "frontend", x: 890, y: 330, relatedIds: ["nextjs", "react", "tailwind", "git"] },
+  { id: "tailwind", name: "Tailwind", category: "frontend", x: 800, y: 350, relatedIds: ["nextjs", "react", "typescript"] }
 ];
+
+// Helper to generate distinct connection lines (edges) without duplicates
+const edges: Array<{ from: string; to: string }> = [];
+const seenEdges = new Set<string>();
+
+skillNodes.forEach((node) => {
+  node.relatedIds.forEach((relId) => {
+    const sortedKey = [node.id, relId].sort().join("-");
+    const relNodeExists = skillNodes.some((n) => n.id === relId);
+    if (!seenEdges.has(sortedKey) && relNodeExists) {
+      seenEdges.add(sortedKey);
+      edges.push({ from: node.id, to: relId });
+    }
+  });
+});
 
 const categoryFilters = [
   { id: "all", label: "All Skills" },
@@ -47,15 +75,58 @@ const categoryFilters = [
   { id: "frontend", label: "Frontend" },
 ];
 
+function getCategoryColor(category: string) {
+  switch (category) {
+    case "ai":
+      return "#C7622B"; // Terracotta
+    case "backend":
+      return "#2F6E5C"; // Pine Green
+    case "database":
+      return "#D9A441"; // Gold
+    case "cloud":
+      return "#8C4A21"; // Warm Brown
+    case "security":
+      return "#3E5C52"; // Dark Pine
+    case "frontend":
+      return "#C7622B"; // Terracotta blend
+    default:
+      return "#78716c";
+  }
+}
+
 export default function SkillsSection() {
-  const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null);
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>("all");
+  const [isMobile, setIsMobile] = useState(false);
 
-  const hoveredNode = skillNodes.find((n) => n.id === hoveredNodeId);
+  // Detect screen size for responsive mobile list fallback
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
-  const filteredNodes = activeCategory === "all"
-    ? skillNodes
-    : skillNodes.filter((n) => n.category === activeCategory);
+  const hoveredNode = skillNodes.find((n) => n.id === hoveredId);
+
+  const isConnected = (edge: { from: string; to: string }, id: string | null) => {
+    if (!id) return false;
+    return edge.from === id || edge.to === id;
+  };
+
+  const isNodeConnectedOrSelf = (nodeId: string, activeId: string | null) => {
+    if (!activeId) return true;
+    if (nodeId === activeId) return true;
+    const activeNode = skillNodes.find((n) => n.id === activeId);
+    return activeNode?.relatedIds.includes(nodeId) || false;
+  };
+
+  const isFiltered = (nodeCategory: string) => {
+    if (activeCategory === "all") return true;
+    return nodeCategory === activeCategory;
+  };
 
   return (
     <section id="skills" className="py-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto">
@@ -70,7 +141,9 @@ export default function SkillsSection() {
         </h2>
 
         <p className="text-slate-600 text-sm sm:text-base">
-          Hover over any technology badge to highlight related tools in my workflow.
+          {isMobile 
+            ? "Filter skills to browse related categories in my full-stack workflow."
+            : "Hover over any skill node to bright-highlight direct connections and dependencies in my workflow."}
         </p>
       </div>
 
@@ -82,16 +155,16 @@ export default function SkillsSection() {
             <button
               key={cat.id}
               onClick={() => setActiveCategory(cat.id)}
-              className={`relative px-4 py-2 rounded-full text-xs font-bold transition-colors ${
+              className={`px-4 py-2 rounded-full text-xs font-bold border transition-all duration-300 relative ${
                 isActive
-                  ? "text-white"
-                  : "bg-white/80 text-stone-700 hover:bg-amber-50 border border-stone-200"
+                  ? "text-white border-[var(--accent-primary)]"
+                  : "text-slate-600 bg-white/40 border-white/60 hover:bg-white/60"
               }`}
             >
               {isActive && (
                 <motion.div
-                  layoutId="activeSkillCategory"
-                  className="absolute inset-0 bg-[var(--foreground)] rounded-full shadow-md"
+                  layoutId="activeSkillCategoryPill"
+                  className="absolute inset-0 bg-gradient-to-r from-[#C7622B] to-[#2F6E5C] rounded-full -z-10"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -101,79 +174,153 @@ export default function SkillsSection() {
         })}
       </div>
 
-      {/* Floating Connected Nodes Container */}
-      <div className="relative min-h-[360px] glass-card-premium p-6 sm:p-10 flex flex-col justify-between overflow-hidden">
+      {/* Interactive Map Board Wrapper */}
+      <div className="relative bg-white/20 backdrop-blur-md border border-white/40 rounded-3xl p-6 sm:p-10 overflow-hidden min-h-[380px] flex flex-col justify-between">
         
-        {/* Animated Connection Highlight Border */}
+        {/* Connection Highlight border overlay when hovered */}
         <AnimatePresence>
-          {hoveredNode && (
+          {hoveredId && (
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
+              initial={{ opacity: 0, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.98 }}
+              exit={{ opacity: 0, scale: 0.99 }}
               transition={{ duration: 0.2 }}
-              className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-[var(--accent-primary)]/40 shadow-inner shadow-amber-500/5 z-0"
+              className="absolute inset-0 pointer-events-none rounded-3xl border-2 border-[var(--accent-primary)]/45 shadow-inner shadow-amber-500/5 z-0"
             />
           )}
         </AnimatePresence>
 
-        {/* Node Hover Header */}
-        <div className="flex items-center justify-between border-b border-stone-200 pb-4 mb-6 relative z-10">
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent-secondary)] inline-block animate-pulse" />
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-stone-800">
-              {hoveredNode ? `Selected: ${hoveredNode.name}` : "Hover a Skill"}
+        {/* Dynamic Status / Interactive Help Info */}
+        <div className="flex items-center justify-between border-b border-stone-200/60 pb-4 mb-6 relative z-10">
+          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-stone-800">
+            <span className="w-2 h-2 rounded-full bg-[var(--accent-secondary)] inline-block animate-pulse" />
+            <span>
+              {hoveredNode 
+                ? `Active Node: ${hoveredNode.name}` 
+                : activeCategory !== "all" 
+                ? `Category: ${categoryFilters.find(f => f.id === activeCategory)?.label}`
+                : "Interactive Topology"}
             </span>
           </div>
 
-          <span className="text-xs font-medium text-slate-500">
+          <span className="text-[11px] font-medium text-slate-500 flex items-center gap-1.5">
+            <HelpCircle size={13} />
             {hoveredNode
-              ? `Connected to ${hoveredNode.relatedIds.length} related technologies`
-              : "All core tools loaded"}
+              ? `Linked to ${hoveredNode.relatedIds.filter(id => skillNodes.some(n => n.id === id)).length} active dependencies`
+              : isMobile 
+              ? "Touch items to view category stack" 
+              : "Hover node to trace lines"}
           </span>
         </div>
 
-        {/* Floating Connected Badges with staggered scale-in */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          transition={{ staggerChildren: 0.03 }}
-          className="flex flex-wrap items-center justify-center gap-3 sm:gap-3.5 my-auto py-4 relative z-10"
-        >
-          {filteredNodes.map((node) => {
-            const isHovered = hoveredNodeId === node.id;
-            const isRelated = hoveredNode?.relatedIds.includes(node.id);
+        {/* Layout Output: 1. Desktop Interactive SVG Graph / 2. Mobile Responsive Pill Fallback */}
+        {!isMobile ? (
+          /* DESKTOP SVG NODE GRAPH */
+          <div className="relative w-full h-[520px] flex items-center justify-center z-10 select-none">
+            <svg viewBox="0 0 1000 580" className="w-full h-full">
+              {/* Render edges (lines) behind nodes */}
+              {edges.map((edge) => {
+                const nodeFrom = skillNodes.find((n) => n.id === edge.from)!;
+                const nodeTo = skillNodes.find((n) => n.id === edge.to)!;
+                const activeConnection = isConnected(edge, hoveredId);
+                const bothFiltered = isFiltered(nodeFrom.category) && isFiltered(nodeTo.category);
 
-            return (
-              <motion.button
-                key={node.id}
-                variants={{
-                  hidden: { opacity: 0, scale: 0.85 },
-                  visible: { opacity: 1, scale: 1, transition: { duration: 0.3 } },
-                }}
-                onMouseEnter={() => setHoveredNodeId(node.id)}
-                onMouseLeave={() => setHoveredNodeId(null)}
-                whileHover={{ scale: 1.08, y: -2 }}
-                transition={{ duration: 0.15 }}
-                className={`px-4 py-2 rounded-2xl text-xs font-bold border transition-all duration-200 ${
-                  isHovered
-                    ? "bg-[var(--foreground)] text-white border-[var(--foreground)] shadow-lg ring-4 ring-amber-500/20 z-20 scale-105"
-                    : isRelated
-                    ? "bg-[var(--accent-primary)] text-white border-[var(--accent-primary)] shadow-md z-10 animate-pulse"
-                    : "glass-badge text-slate-900 border-white/60 hover:bg-white/70"
-                }`}
-              >
-                {node.name}
-              </motion.button>
-            );
-          })}
-        </motion.div>
+                return (
+                  <line
+                    key={`${edge.from}-${edge.to}`}
+                    x1={nodeFrom.x}
+                    y1={nodeFrom.y}
+                    x2={nodeTo.x}
+                    y2={nodeTo.y}
+                    stroke={activeConnection ? "#C7622B" : "#8A8272"}
+                    strokeWidth={activeConnection ? 2.8 : 1.2}
+                    opacity={
+                      !bothFiltered 
+                        ? 0.04 
+                        : hoveredId 
+                        ? (activeConnection ? 0.95 : 0.08) 
+                        : 0.45
+                    }
+                    className="transition-all duration-300"
+                  />
+                );
+              })}
 
-        <div className="pt-4 border-t border-stone-200 flex items-center justify-between text-xs text-slate-500 font-medium relative z-10">
-          <span>Python • FastAPI • PostgreSQL • AWS</span>
-          <span className="text-[var(--accent-primary)] font-bold">Connected Skill Graph</span>
-        </div>
+              {/* Render Nodes (Glow circles and Text labels) on top */}
+              {skillNodes.map((node) => {
+                const isHovered = hoveredId === node.id;
+                const isNodeActive = isNodeConnectedOrSelf(node.id, hoveredId);
+                const categoryFiltered = isFiltered(node.category);
+
+                return (
+                  <g
+                    key={node.id}
+                    transform={`translate(${node.x}, ${node.y})`}
+                    onMouseEnter={() => setHoveredId(node.id)}
+                    onMouseLeave={() => setHoveredId(null)}
+                    className="cursor-pointer group"
+                  >
+                    {/* Node base glow indicator */}
+                    <circle
+                      r={isHovered ? 28 : 22}
+                      fill={getCategoryColor(node.category)}
+                      opacity={
+                        !categoryFiltered 
+                          ? 0.1 
+                          : hoveredId 
+                          ? (isNodeActive ? 0.9 : 0.2) 
+                          : 0.8
+                      }
+                      className="transition-all duration-300 filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.1)]"
+                    />
+
+                    {/* Hover border ring overlay */}
+                    <circle
+                      r={isHovered ? 32 : 22}
+                      fill="transparent"
+                      stroke={getCategoryColor(node.category)}
+                      strokeWidth={isHovered ? 2 : 0}
+                      className="transition-all duration-300"
+                    />
+
+                    {/* Skill Label Text */}
+                    <text
+                      textAnchor="middle"
+                      dy="4"
+                      className={`text-[10px] sm:text-[11px] font-extrabold fill-white pointer-events-none ${
+                        !categoryFiltered && "opacity-25"
+                      } transition-opacity duration-300`}
+                    >
+                      {node.name}
+                    </text>
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+        ) : (
+          /* MOBILE RESPONSIVE PILL LIST FALLBACK */
+          <div className="flex flex-wrap items-center justify-center gap-2.5 py-6 z-10">
+            {skillNodes.map((node) => {
+              const categoryFiltered = isFiltered(node.category);
+              return (
+                <div
+                  key={node.id}
+                  className={`px-4 py-2.5 rounded-2xl text-xs font-bold border transition-all duration-300 ${
+                    categoryFiltered
+                      ? "bg-white/50 text-slate-800 border-white/60 shadow-sm"
+                      : "opacity-25 border-transparent"
+                  }`}
+                  style={{
+                    borderLeft: categoryFiltered ? `3px solid ${getCategoryColor(node.category)}` : undefined
+                  }}
+                >
+                  {node.name}
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );

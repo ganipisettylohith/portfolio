@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Activity, Cpu, ShieldCheck, Database, Layers, BarChart3, LineChart, Server } from "lucide-react";
+import { Activity, Cpu, BarChart3 } from "lucide-react";
 
 export default function ProjectImage({ src, alt }: { src?: string; alt: string }) {
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Fallback check: if image is already cached/loaded in the browser, onLoad might not fire
+  useEffect(() => {
+    if (imgRef.current && imgRef.current.complete) {
+      setLoaded(true);
+    }
+  }, [src]);
 
   // If real screenshot is not provided, render a designed abstract UI dashboard wireframe
   if (!src) {
@@ -128,6 +136,7 @@ export default function ProjectImage({ src, alt }: { src?: string; alt: string }
         )}
       </AnimatePresence>
       <motion.img
+        ref={imgRef}
         src={src}
         alt={alt}
         onLoad={() => setLoaded(true)}

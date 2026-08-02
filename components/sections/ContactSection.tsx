@@ -51,12 +51,12 @@ export default function ContactSection() {
         {/* Left Column: Contact Cards & Quick Copy */}
         <div className="lg:col-span-5 space-y-5">
           {/* Email Copy Card */}
-          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md">
+          <div className="glass-card-light p-6">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
               Direct Email
             </span>
-            <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-stone-50 border border-stone-200">
-              <span className="text-xs sm:text-sm font-semibold text-stone-800 truncate">
+            <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-white/40 border border-white/60">
+              <span className="text-xs sm:text-sm font-semibold text-stone-850 truncate">
                 {emailAddress}
               </span>
               <button
@@ -70,7 +70,7 @@ export default function ContactSection() {
           </div>
 
           {/* Location & Status Card */}
-          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md space-y-4">
+          <div className="glass-card-light p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-3 rounded-2xl bg-amber-50 text-[var(--accent-primary)]">
                 <MapPin size={20} />
@@ -93,7 +93,7 @@ export default function ContactSection() {
           </div>
 
           {/* Social Media Buttons */}
-          <div className="glass-card-light p-6 rounded-3xl border border-[var(--card-border)] shadow-md">
+          <div className="glass-card-light p-6">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-4">
               Social Links
             </span>
@@ -135,7 +135,7 @@ export default function ContactSection() {
         </div>
 
         {/* Right Column: Contact Form */}
-        <div className="lg:col-span-7 glass-card-premium p-8 sm:p-10 rounded-3xl border border-[var(--card-border)] shadow-xl bg-white">
+        <div className="lg:col-span-7 glass-card-premium p-8 sm:p-10">
           {formSubmitted ? (
             <div className="text-center py-12">
               <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
@@ -161,7 +161,7 @@ export default function ContactSection() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
                   />
                 </div>
 
@@ -175,7 +175,7 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                    className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
                   />
                 </div>
               </div>
@@ -190,7 +190,7 @@ export default function ContactSection() {
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   placeholder="AI Engineering Opportunity / Inquiry"
-                  className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all"
+                  className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
                 />
               </div>
 
@@ -204,7 +204,7 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Hi Lohith, I'd like to discuss a project..."
-                  className="w-full px-4 py-3 rounded-2xl bg-stone-50 border border-stone-200 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white transition-all resize-none"
+                  className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all resize-none"
                 />
               </div>
 
