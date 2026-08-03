@@ -14,16 +14,23 @@ import Footer from "@/components/layout/Footer";
 
 // Copy uploaded MediVision AI & NetTrack Live screenshots to public folder if present
 try {
-  const brainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\c707a413-79d1-4f48-abc1-06bdd44b0faf`;
+  const currentBrainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\34765a04-7fdf-47ec-9613-3102b15222c6`;
+  const legacyBrainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\c707a413-79d1-4f48-abc1-06bdd44b0faf`;
   const publicDir = path.join(process.cwd(), "public");
 
-  const mediSrc = path.join(brainDir, "media__1785581751300.png");
+  const newMediSrc = path.join(currentBrainDir, "media__1785751544823.png");
   const mediDest = path.join(publicDir, "medivision-ai.png");
-  if (fs.existsSync(mediSrc) && !fs.existsSync(mediDest)) {
-    fs.copyFileSync(mediSrc, mediDest);
+
+  if (fs.existsSync(newMediSrc)) {
+    fs.copyFileSync(newMediSrc, mediDest);
+  } else {
+    const mediSrc = path.join(legacyBrainDir, "media__1785581751300.png");
+    if (fs.existsSync(mediSrc) && !fs.existsSync(mediDest)) {
+      fs.copyFileSync(mediSrc, mediDest);
+    }
   }
 
-  const netSrc = path.join(brainDir, "media__1785581974915.png");
+  const netSrc = path.join(legacyBrainDir, "media__1785581974915.png");
   const netDest = path.join(publicDir, "nettrack-live.png");
   if (fs.existsSync(netSrc) && !fs.existsSync(netDest)) {
     fs.copyFileSync(netSrc, netDest);

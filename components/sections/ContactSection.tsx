@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 import { Mail, Send, Copy, Check, Github, Linkedin, FileText, MapPin, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
+import Magnetic from "@/components/ui/Magnetic";
 
 export default function ContactSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,13 +24,28 @@ export default function ContactSection() {
     setTimeout(() => setCopiedEmail(false), 3000);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    }, 4000);
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormSubmitted(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        alert("Failed to send message. Please try emailing directly.");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Failed to connect to the server. Please try emailing directly.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -98,38 +116,46 @@ export default function ContactSection() {
               Social Links
             </span>
             <div className="grid grid-cols-2 gap-3">
-              <a
-                href="https://github.com/ganipisettylohith"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[var(--foreground)] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm"
-              >
-                <Github size={16} /> GitHub
-              </a>
+              <Magnetic>
+                <motion.a
+                  href="https://github.com/ganipisettylohith"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[var(--foreground)] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm cursor-pointer"
+                >
+                  <Github size={16} /> GitHub
+                </motion.a>
+              </Magnetic>
 
-              <a
-                href="https://www.linkedin.com/in/lohith-ganipisetty"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[#0077b5] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm"
-              >
-                <Linkedin size={16} /> LinkedIn
-              </a>
+              <Magnetic>
+                <motion.a
+                  href="https://www.linkedin.com/in/lohith-ganipisetty"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[#0077b5] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm cursor-pointer"
+                >
+                  <Linkedin size={16} /> LinkedIn
+                </motion.a>
+              </Magnetic>
 
-              <a
-                href={`mailto:${emailAddress}`}
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-[var(--accent-primary)] font-bold text-xs hover:bg-amber-100 transition-colors"
-              >
-                <Mail size={16} /> Email Me
-              </a>
+              <Magnetic>
+                <motion.a
+                  href={`mailto:${emailAddress}`}
+                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-[var(--accent-primary)] font-bold text-xs hover:bg-amber-100 transition-colors cursor-pointer"
+                >
+                  <Mail size={16} /> Email Me
+                </motion.a>
+              </Magnetic>
 
-              <a
-                href="/resume.pdf"
-                download
-                className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 font-bold text-xs hover:bg-stone-200 transition-colors"
-              >
-                <FileText size={16} /> Resume
-              </a>
+              <Magnetic>
+                <motion.a
+                  href="/resume.pdf"
+                  download
+                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 font-bold text-xs hover:bg-stone-200 transition-colors cursor-pointer"
+                >
+                  <FileText size={16} /> Resume
+                </motion.a>
+              </Magnetic>
             </div>
           </div>
         </div>
@@ -145,6 +171,12 @@ export default function ContactSection() {
               <p className="text-sm text-slate-600 max-w-md mx-auto">
                 Thank you for reaching out. I'll get back to you shortly.
               </p>
+              <button
+                onClick={() => setFormSubmitted(false)}
+                className="mt-6 px-6 py-2 rounded-xl bg-stone-100 border border-stone-200 text-xs font-bold text-slate-700 hover:bg-stone-250 transition-colors"
+              >
+                Send another message
+              </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -208,12 +240,16 @@ export default function ContactSection() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-4 rounded-2xl bg-[var(--foreground)] text-white font-extrabold text-sm hover:bg-[var(--accent-primary)] transition-colors flex items-center justify-center gap-2 shadow-md"
-              >
-                <Send size={16} /> Send Message
-              </button>
+              <Magnetic>
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full py-4 rounded-2xl bg-[var(--foreground)] text-white font-extrabold text-sm hover:bg-[var(--accent-primary)] transition-colors flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-50"
+                >
+                  <Send size={16} /> 
+                  <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+                </motion.button>
+              </Magnetic>
             </form>
           )}
         </div>

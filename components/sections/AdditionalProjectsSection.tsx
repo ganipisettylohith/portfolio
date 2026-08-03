@@ -11,7 +11,7 @@ const additionalProjects = [
     description: "A full-stack e-commerce website with secure login, product management, shopping cart, and order management.",
     icon: ShoppingBag,
     technologies: ["React", "Python", "FastAPI", "PostgreSQL", "Tailwind CSS"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/Ecommers",
   },
   {
     title: "Music Streaming Application",
@@ -19,7 +19,7 @@ const additionalProjects = [
     description: "A web-based music streaming application that allows users to browse songs, create playlists, and play music through a responsive interface.",
     icon: Music,
     technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Web Audio API"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/Musicplayer",
   },
   {
     title: "Django Backend Projects",
@@ -27,7 +27,7 @@ const additionalProjects = [
     description: "A collection of Django applications built to practice REST APIs, database management, authentication, and backend development.",
     icon: Code2,
     technologies: ["Python", "Django", "SQLite", "PostgreSQL", "REST Framework"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/sportzerai",
   },
 ];
 

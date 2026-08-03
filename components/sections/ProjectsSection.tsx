@@ -1,13 +1,16 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Code2, Github, Monitor, Tablet, Smartphone, ChevronDown, ChevronUp } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Code2, Github, Monitor, Tablet, Smartphone } from "lucide-react";
+import { motion } from "framer-motion";
 import TiltCard from "@/components/ui/TiltCard";
 import ProjectImage from "@/components/ui/ProjectImage";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@/hooks/useGSAP";
+import Magnetic from "@/components/ui/Magnetic";
+import Link from "next/link";
+import LiveWidget from "@/components/ui/LiveWidget";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -25,7 +28,7 @@ const flagshipProjects = [
     frictionPoint: "The hardest part was directing questions to the right AI assistant. When a coach asked, \"Why was the player benched after the 60th minute?\", the system got confused between the stats assistant and the strategy assistant. I fixed this by adding a quick sorting step using Pydantic (a Python data-validation tool) that correctly routes the question in under 20 milliseconds.",
     outcome: "Working end-to-end as an internal tool — a coach or analyst can ask a question and get a direct answer instead of searching through documents.",
     techStack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "PyTorch", "LLM Training", "AWS EC2", "Docker"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/DOSAccord.ai",
     screenshotUrl: undefined,
     layout: "text-left",
   },
@@ -40,12 +43,12 @@ const flagshipProjects = [
     frictionPoint: "Grad-CAM heatmaps originally rendered with noise around the edges of the scans. I added a custom thresholding step in PyTorch to clean up the overlay before it gets included in the generated PDF report.",
     outcome: "Working as a prototype — it takes in a scan and produces a report pairing the original image with its heatmap overlay.",
     techStack: ["Python", "PyTorch", "FastAPI", "Grad-CAM", "ReportLab PDF", "React"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/MediVision-AI",
     screenshotUrl: "/medivision-ai.png",
     layout: "image-left",
   },
   {
-    id: "nettrack-live",
+    id: "geotraffic-live",
     title: "GeoTrafficLive",
     subtitle: "Real-Time Network Traffic Map",
     badge: "Networking",
@@ -55,7 +58,7 @@ const flagshipProjects = [
     frictionPoint: "Under high packet volume, Python's single-threaded socket listener started dropping packets. Switching to non-blocking socket buffers with WebSocket broadcasts solved the bottleneck.",
     outcome: "Runs as a working local tool for inspecting live network traffic in real time.",
     techStack: ["Python", "Socket API", "FastAPI", "WebSockets", "Docker", "Linux", "React"],
-    githubUrl: "https://github.com/ganipisettylohith",
+    githubUrl: "https://github.com/ganipisettylohith/GeoTrafficLive",
     screenshotUrl: "/nettrack-live.png",
     layout: "text-left",
   }
@@ -63,11 +66,10 @@ const flagshipProjects = [
 
 export default function ProjectsSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null);
   const [activeViewportTab, setActiveViewportTab] = useState<Record<string, "desktop" | "tablet" | "mobile">>({
     "dosaccord-ai": "desktop",
     "medivision-ai": "desktop",
-    "nettrack-live": "desktop"
+    "geotraffic-live": "desktop"
   });
 
   useGSAP(
@@ -114,9 +116,12 @@ export default function ProjectsSection() {
           Projects & <span className="text-gradient">Case Studies</span>
         </h2>
 
-        <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto">
+        <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto mb-6">
           Detailed breakdowns of systems I have designed, coded, and deployed.
         </p>
+        <div className="w-full flex justify-center mt-6">
+          <LiveWidget />
+        </div>
       </div>
 
       {/* Flagship Projects Showcase */}
@@ -124,64 +129,63 @@ export default function ProjectsSection() {
         {flagshipProjects.map((project, idx) => {
           const isTextLeft = project.layout === "text-left";
           const currentViewport = activeViewportTab[project.id] || "desktop";
-          const isExpanded = expandedProjectId === project.id;
 
           return (
-            <div
-              key={project.id}
-              className="project-card-gsap glass-card-premium p-6 sm:p-10 overflow-hidden animate-all"
-            >
-              <div className={`flex flex-col ${isTextLeft ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-12 items-start`}>
-                
-                {/* Content Side */}
-                <div className="flex-1 space-y-5">
-                  <div className="flex items-center gap-3">
-                    <span className="px-3.5 py-1 rounded-full bg-stone-100/80 backdrop-blur-md text-[var(--accent-primary)] text-xs font-extrabold border border-stone-200/60">
-                      {project.badge}
-                    </span>
-                    <span className="text-xs font-mono font-bold text-slate-400">
-                      0{idx + 1}
-                    </span>
-                  </div>
+            <TiltCard key={project.id} className="project-card-gsap block" intensity={6}>
+              <div className="glass-card-premium p-6 sm:p-10 overflow-hidden animate-all h-full">
+                <div className={`flex flex-col ${isTextLeft ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-12 items-start`}>
+                  
+                  {/* Content Side */}
+                  <div className="flex-1 space-y-5">
+                    <div className="flex items-center gap-3">
+                      <span className="px-3.5 py-1 rounded-full bg-stone-100/80 backdrop-blur-md text-[var(--accent-primary)] text-xs font-extrabold border border-stone-200/60">
+                        {project.badge}
+                      </span>
+                      <span className="text-xs font-mono font-bold text-slate-400">
+                        0{idx + 1}
+                      </span>
+                    </div>
 
-                  <div className="project-title-gsap">
-                    <h3 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
-                      {project.title}
-                    </h3>
-                    <p className="text-sm font-semibold text-slate-500 mt-1">
-                      {project.subtitle}
+                    <div className="project-title-gsap">
+                      <h3 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight">
+                        {project.title}
+                      </h3>
+                      <p className="text-sm font-semibold text-slate-500 mt-1">
+                        {project.subtitle}
+                      </p>
+                    </div>
+
+                    {/* Project Overview Paragraph */}
+                    <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+                      {project.overview}
                     </p>
+
+                    {/* Action Buttons */}
+                    <div className="pt-2 flex flex-wrap items-center gap-3">
+                      <Magnetic>
+                        <motion.a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--foreground)] text-white font-semibold text-xs sm:text-sm hover:bg-[var(--accent-primary)] transition-colors shadow-md cursor-pointer"
+                        >
+                          <Github size={16} /> GitHub Code
+                        </motion.a>
+                      </Magnetic>
+
+                      <Magnetic>
+                        <Link
+                          href={`/projects/${project.id}`}
+                          className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full bg-white/50 backdrop-blur-md border border-stone-200/60 text-slate-800 font-semibold text-xs sm:text-sm hover:bg-stone-250 transition-colors cursor-pointer"
+                        >
+                          <span>View Case Study</span>
+                        </Link>
+                      </Magnetic>
+                    </div>
                   </div>
 
-                  {/* Project Overview Paragraph */}
-                  <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-                    {project.overview}
-                  </p>
-
-                  {/* Action Buttons */}
-                  <div className="pt-2 flex flex-wrap items-center gap-3">
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--foreground)] text-white font-semibold text-xs sm:text-sm hover:bg-[var(--accent-primary)] transition-colors shadow-md"
-                    >
-                      <Github size={16} /> GitHub Code
-                    </a>
-
-                    <button
-                      onClick={() => setExpandedProjectId(isExpanded ? null : project.id)}
-                      className="inline-flex items-center gap-1.5 px-6 py-3 rounded-full bg-white/50 backdrop-blur-md border border-stone-200/60 text-slate-800 font-semibold text-xs sm:text-sm hover:bg-stone-200/80 transition-colors"
-                    >
-                      <span>{isExpanded ? "Close Case Study" : "View Case Study"}</span>
-                      {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Screenshot Switcher Window Frame (Desktop / Tablet / Mobile) wrapped entirely in TiltCard */}
-                <div className="project-frame-gsap flex-1 w-full">
-                  <TiltCard className="w-full">
+                  {/* Screenshot Switcher Window Frame (Desktop / Tablet / Mobile) */}
+                  <div className="project-frame-gsap flex-1 w-full">
                     <div className="space-y-4">
                       {/* Viewport Switcher Tabs */}
                       <div className="flex items-center gap-1.5 bg-stone-100 p-1.5 rounded-2xl border border-stone-200 w-fit shadow-sm">
@@ -217,8 +221,8 @@ export default function ProjectsSection() {
                         <div className="bg-stone-950 px-4 py-3 flex items-center justify-between border-b border-stone-800">
                           <div className="flex items-center gap-2">
                             <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-                            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-                            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
+                            <span className="w-3 h-3 rounded-full bg-amber-50/80 inline-block" />
+                            <span className="w-3 h-3 rounded-full bg-emerald-50/80 inline-block" />
                           </div>
                           <span className="text-[11px] font-mono text-stone-400 truncate max-w-[220px]">
                             https://{project.id}.app
@@ -232,79 +236,11 @@ export default function ProjectsSection() {
                         </div>
                       </div>
                     </div>
-                  </TiltCard>
+                  </div>
+
                 </div>
-
               </div>
-
-              {/* Collapsible Case Study Drawer Section */}
-              <AnimatePresence>
-                {isExpanded && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                    className="mt-8 pt-8 border-t border-stone-200/60 space-y-6 text-sm"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      {/* Context & Approach */}
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                            Problem / Context
-                          </h4>
-                          <p className="text-slate-700 leading-relaxed font-medium">
-                            {project.problem}
-                          </p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">
-                            Approach
-                          </h4>
-                          <p className="text-slate-700 leading-relaxed font-medium">
-                            {project.approach}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Friction Point & Outcome */}
-                      <div className="space-y-4">
-                        {/* Friction Point Callout Box */}
-                        <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-amber-900 leading-relaxed font-medium">
-                          <span className="font-bold text-[var(--accent-primary)] block mb-1">Engineering Friction Point:</span>
-                          {project.frictionPoint}
-                        </div>
-
-                        {/* Outcome Box */}
-                        <div className="p-4 rounded-2xl bg-emerald-50/60 border border-emerald-200/70 text-emerald-900 leading-relaxed font-medium">
-                          <span className="font-bold text-[var(--accent-secondary)] block mb-1">Outcome / Real-World Status:</span>
-                          {project.outcome}
-                        </div>
-
-                        {/* Tech Stack Pills inside expanded section */}
-                        <div>
-                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">
-                            Technologies Deployed
-                          </h4>
-                          <div className="flex flex-wrap gap-1.5">
-                            {project.techStack.map((tech) => (
-                              <span
-                                key={tech}
-                                className="px-3 py-1 rounded-full bg-stone-100 text-slate-700 text-xs font-semibold border border-stone-200/60"
-                              >
-                                {tech}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            </TiltCard>
           );
         })}
       </div>
