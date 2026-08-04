@@ -16,6 +16,7 @@ import Footer from "@/components/layout/Footer";
 try {
   const currentBrainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\34765a04-7fdf-47ec-9613-3102b15222c6`;
   const legacyBrainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\c707a413-79d1-4f48-abc1-06bdd44b0faf`;
+  const activeBrainDir = `C:\\Users\\Lohith\\.gemini\\antigravity-ide\\brain\\2752d5d1-a406-4f08-8b84-25b236fea025`;
   const publicDir = path.join(process.cwd(), "public");
 
   const newMediSrc = path.join(currentBrainDir, "media__1785751544823.png");
@@ -35,6 +36,13 @@ try {
   if (fs.existsSync(netSrc) && !fs.existsSync(netDest)) {
     fs.copyFileSync(netSrc, netDest);
   }
+
+  const dosSrc = path.join(activeBrainDir, "media__1785845122996.png");
+  const dosDest = path.join(publicDir, "dosaccord-ai.png");
+  if (fs.existsSync(dosSrc)) {
+    fs.copyFileSync(dosSrc, dosDest);
+  }
+
 
   // Cleanup: Move legacy/unwanted files to unwanted_backup/ folder
   const rootDir = process.cwd();

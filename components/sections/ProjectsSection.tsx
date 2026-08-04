@@ -29,7 +29,7 @@ const flagshipProjects = [
     outcome: "Working end-to-end as an internal tool — a coach or analyst can ask a question and get a direct answer instead of searching through documents.",
     techStack: ["Python", "FastAPI", "PostgreSQL", "pgvector", "PyTorch", "LLM Training", "AWS EC2", "Docker"],
     githubUrl: "https://github.com/ganipisettylohith/DOSAccord.ai",
-    screenshotUrl: undefined,
+    screenshotUrl: "/dosaccord-ai.png",
     layout: "text-left",
   },
   {
