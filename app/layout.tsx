@@ -8,6 +8,8 @@ import MouseGlow from "@/components/ui/MouseGlow";
 import CustomCursor from "@/components/ui/CustomCursor";
 import CommandPalette from "@/components/ui/CommandPalette";
 
+import { Analytics } from "@vercel/analytics/react";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -70,12 +72,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <script defer src="/_vercel/insights/script.js" />
       </head>
       <body className={`${inter.className} overflow-x-hidden max-w-[100vw] relative bg-[#FAFAF7] text-[#1F2328]`}>
         <CommandPalette />
         <FloatingNav />
         {children}
+        <Analytics />
       </body>
     </html>
   );
