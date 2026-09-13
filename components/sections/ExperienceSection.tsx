@@ -51,7 +51,7 @@ export default function ExperienceSection() {
       </div>
 
       {/* Role Card */}
-      <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 mb-8 shadow-sm">
+      <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 mb-8 shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E5E0] pb-6 mb-6">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-stone-100 text-[#1F2328] text-xs font-semibold mb-2">
@@ -79,7 +79,7 @@ export default function ExperienceSection() {
       {/* Responsibilities Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {responsibilities.map((resp, idx) => (
-          <div key={resp.title} className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm hover:border-[#2D6A6A]/40 transition-colors">
+          <div key={resp.title} className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm hover:border-[#2D6A6A]/40 transition-colors">
             <span className="text-xs font-semibold text-[#2D6A6A] block mb-1">
               FOCUS 0{idx + 1}
             </span>

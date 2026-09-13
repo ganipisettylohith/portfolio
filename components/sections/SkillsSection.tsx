@@ -79,7 +79,7 @@ export default function SkillsSection() {
         {skillCategories.map((category) => (
           <div
             key={category.title}
-            className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-lg p-6 shadow-sm flex flex-col justify-between"
+            className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-lg p-6 shadow-sm flex flex-col justify-between"
           >
             <div>
               <div className="flex items-center gap-2 pb-3 mb-4 border-b border-[#E5E5E0]">

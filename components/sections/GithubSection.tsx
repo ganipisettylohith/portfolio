@@ -117,7 +117,7 @@ export default function GithubSection() {
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 mb-8 shadow-sm">
+      <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 mb-8 shadow-sm">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center sm:text-left">
             <div className="w-12 h-12 rounded-md bg-[#2D6A6A] text-white font-bold text-lg flex items-center justify-center shrink-0">
@@ -168,7 +168,7 @@ export default function GithubSection() {
               href={repo.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 flex flex-col justify-between shadow-sm hover:border-[#2D6A6A]/40 transition-colors group cursor-pointer"
+              className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 flex flex-col justify-between shadow-sm hover:border-[#2D6A6A]/40 transition-colors group cursor-pointer"
             >
               <div>
                 <div className="flex items-center justify-between mb-2">

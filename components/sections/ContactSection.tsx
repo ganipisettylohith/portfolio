@@ -67,7 +67,7 @@ export default function ContactSection() {
         {/* Left Column: Contact Cards & Quick Copy */}
         <div className="lg:col-span-5 space-y-4">
           {/* Email Copy Card */}
-          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
+          <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-2">
               Direct Email
             </span>
@@ -86,7 +86,7 @@ export default function ContactSection() {
           </div>
 
           {/* Location & Status Card */}
-          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 space-y-4 shadow-sm">
+          <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 space-y-4 shadow-sm">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-md bg-stone-100 text-[#2D6A6A]">
                 <MapPin size={18} />
@@ -109,7 +109,7 @@ export default function ContactSection() {
           </div>
 
           {/* Social Media Buttons */}
-          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
+          <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
             <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-3">
               Social Links
             </span>
@@ -151,7 +151,7 @@ export default function ContactSection() {
         </div>
 
         {/* Right Column: Contact Form */}
-        <div className="lg:col-span-7 bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 shadow-sm">
+        <div className="lg:col-span-7 bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 shadow-sm">
           {formSubmitted ? (
             <div className="text-center py-10">
               <div className="w-12 h-12 rounded-md bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3 border border-emerald-200">

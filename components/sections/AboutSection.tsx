@@ -35,7 +35,7 @@ export default function AboutSection() {
         {specializations.map((spec, idx) => (
           <div
             key={spec.name}
-            className={`bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm hover:border-[#2D6A6A]/40 transition-colors ${
+            className={`bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm hover:border-[#2D6A6A]/40 transition-colors ${
               idx === 6 ? "md:col-span-2 lg:col-span-1" : ""
             }`}
           >

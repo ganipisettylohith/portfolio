@@ -51,7 +51,7 @@ export default function GeoTrafficCaseStudyPage() {
       <main className="flex-1 space-y-12">
         
         {/* Hero Section Card */}
-        <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] p-6 md:p-8 rounded-lg shadow-sm">
+        <div className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] p-6 md:p-8 rounded-lg shadow-sm">
           <div className="text-[#2D6A6A] text-xs font-semibold uppercase tracking-wider mb-2">REAL-TIME SYSTEMS</div>
           <h1 className="text-2xl md:text-4xl font-bold text-[#1F2328] mb-2 tracking-tight">
             GeoTrafficLive

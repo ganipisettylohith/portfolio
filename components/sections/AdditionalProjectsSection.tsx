@@ -49,7 +49,7 @@ export default function AdditionalProjectsSection() {
           return (
             <div
               key={project.title}
-              className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm flex flex-col justify-between hover:border-[#2D6A6A]/40 transition-colors"
+              className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm flex flex-col justify-between hover:border-[#2D6A6A]/40 transition-colors"
             >
               <div>
                 {/* Category badge & Icon */}

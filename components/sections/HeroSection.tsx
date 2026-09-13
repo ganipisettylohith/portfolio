@@ -94,7 +94,7 @@ export default function HeroSection() {
           {realStats.map((stat) => (
             <div
               key={stat.label}
-              className="bg-white/70 backdrop-blur-md p-4 rounded-md border border-[#E5E5E0] shadow-sm text-center"
+              className="bg-white/45 backdrop-blur-md p-4 rounded-md border border-[#E5E5E0] shadow-sm text-center"
             >
               <div className="text-2xl sm:text-3xl font-bold text-[#1F2328] tracking-tight">
                 {stat.display}

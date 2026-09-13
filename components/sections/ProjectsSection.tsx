@@ -84,7 +84,7 @@ export default function ProjectsSection() {
           const currentViewport = activeViewportTab[project.id] || "desktop";
 
           return (
-            <div key={project.id} className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-lg p-6 sm:p-8 shadow-sm">
+            <div key={project.id} className="bg-white/45 backdrop-blur-md border border-[#E5E5E0] rounded-lg p-6 sm:p-8 shadow-sm">
               <div className={`flex flex-col ${isTextLeft ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 items-start`}>
                 
                 {/* Content Side */}
