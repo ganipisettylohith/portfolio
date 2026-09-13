@@ -21,7 +21,6 @@ export default function FloatingNav() {
 
   const { scrollY } = useScroll();
   const navPadding = useTransform(scrollY, [0, 80], ["0.75rem 1.5rem", "0.5rem 1.25rem"]);
-  const navScale = useTransform(scrollY, [0, 80], [1, 0.98]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -47,41 +46,34 @@ export default function FloatingNav() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center px-3 pt-3 sm:pt-4 pointer-events-none"
-      >
-        <motion.nav
-          style={{ padding: navPadding, scale: navScale }}
-          className={`pointer-events-auto flex items-center justify-between w-full max-w-6xl rounded-full transition-all duration-300 ${
+      <header className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-4 pointer-events-none">
+        <nav
+          className={`pointer-events-auto flex items-center justify-between w-full max-w-6xl rounded-lg transition-all duration-200 px-5 py-3 ${
             scrolled
-              ? "bg-white/85 backdrop-blur-xl border border-stone-200/90 shadow-xl shadow-amber-900/5"
-              : "bg-white/70 backdrop-blur-md border border-stone-200/60 shadow-sm"
+              ? "bg-[#FAFAF7]/95 border border-[#E5E5E0] shadow-sm"
+              : "bg-[#FAFAF7]/80 border border-[#E5E5E0]/60"
           }`}
         >
-          {/* Brand Logo with whileTap bounce */}
-          <motion.a
+          {/* Brand Logo */}
+          <a
             href="#home"
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2.5 group text-slate-900 font-bold tracking-tight text-sm sm:text-base"
+            className="flex items-center gap-2.5 group text-[#1F2328] font-bold text-sm"
           >
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#C7622B] via-[#D9A441] to-[#2F6E5C] flex items-center justify-center text-white text-xs font-black shadow-md shadow-amber-900/10 group-hover:scale-105 transition-transform">
+            <div className="w-7 h-7 rounded-md bg-[#2D6A6A] flex items-center justify-center text-white text-xs font-bold">
               GL
             </div>
             <div className="flex flex-col">
-              <span className="font-extrabold text-slate-900 tracking-tight leading-none text-sm">
+              <span className="font-bold text-[#1F2328] text-sm">
                 G. Lohith
               </span>
-              <span className="text-[10px] font-bold tracking-wider uppercase text-[var(--accent-primary)]">
-                AI/ML & FULL-STACK ENGINEER
+              <span className="text-[10px] font-semibold text-[#2D6A6A]">
+                AI/ML & FULL-STACK DEVELOPER
               </span>
             </div>
-          </motion.a>
+          </a>
 
-          {/* Desktop Nav Items with layoutId sliding pill */}
-          <div className="hidden lg:flex items-center gap-1 bg-stone-100/80 p-1 rounded-full border border-stone-200/70">
+          {/* Desktop Nav Items */}
+          <div className="hidden lg:flex items-center gap-1 bg-stone-100/60 p-1 rounded-md border border-[#E5E5E0]">
             {navItems.map((item) => {
               const isActive = activeSection === item.href.substring(1);
               return (
@@ -95,20 +87,13 @@ export default function FloatingNav() {
                       if (target) target.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
-                  className={`relative px-3.5 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 ${
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
                     isActive
-                      ? "text-[var(--accent-primary)] font-bold"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                      ? "bg-white text-[#2D6A6A] font-bold border border-[#E5E5E0] shadow-sm"
+                      : "text-slate-600 hover:text-[#1F2328] hover:bg-white/60"
                   }`}
                 >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeNavPill"
-                      className="absolute inset-0 bg-white rounded-full shadow-sm"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span className="relative z-10">{item.name}</span>
+                  {item.name}
                 </a>
               );
             })}
@@ -118,33 +103,33 @@ export default function FloatingNav() {
           <div className="flex items-center gap-2">
             <a
               href="#contact"
-              className="hidden sm:flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900 text-white text-xs font-semibold hover:bg-[var(--accent-primary)] transition-colors shadow-sm"
+              className="hidden sm:flex items-center gap-1 px-4 py-1.5 rounded-md bg-[#2D6A6A] text-white text-xs font-semibold hover:bg-[#235353] transition-colors shadow-sm"
             >
               Contact Me <ArrowUpRight size={14} />
             </a>
 
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 rounded-full bg-stone-100 text-slate-700 hover:bg-stone-200 transition-colors"
+              className="lg:hidden p-2 rounded-md bg-stone-100 text-slate-700 hover:bg-stone-200 transition-colors"
               aria-label="Toggle Menu"
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
-        </motion.nav>
-      </motion.header>
+        </nav>
+      </header>
 
       {/* Mobile Drawer Navigation */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-x-4 top-20 z-50 lg:hidden bg-white/95 backdrop-blur-2xl border border-stone-200/90 rounded-3xl p-6 shadow-2xl shadow-amber-900/10"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-4 top-20 z-50 lg:hidden bg-white border border-[#E5E5E0] rounded-lg p-5 shadow-md"
           >
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-1.5">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeSection === item.href.substring(1);
@@ -153,31 +138,31 @@ export default function FloatingNav() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
+                    className={`flex items-center gap-3 px-3.5 py-2.5 rounded-md text-xs font-semibold transition-all ${
                       isActive
-                        ? "bg-amber-50 text-[var(--accent-primary)] border border-amber-200"
-                        : "text-slate-700 hover:bg-stone-100/70"
+                        ? "bg-[#2D6A6A]/10 text-[#2D6A6A] border border-[#2D6A6A]/20"
+                        : "text-slate-700 hover:bg-stone-100"
                     }`}
                   >
-                    <Icon size={18} className={isActive ? "text-[var(--accent-primary)]" : "text-slate-400"} />
+                    <Icon size={16} className={isActive ? "text-[#2D6A6A]" : "text-slate-400"} />
                     {item.name}
                   </a>
                 );
               })}
               
-              <div className="pt-4 border-t border-stone-100 flex flex-col gap-2 mt-2">
+              <div className="pt-3 border-t border-[#E5E5E0] flex flex-col gap-2 mt-2">
                 <a
                   href="/resume.pdf"
                   download
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 rounded-2xl bg-amber-50 border border-amber-200 text-[var(--accent-primary)] font-semibold text-center text-sm"
+                  className="w-full py-2 rounded-md bg-stone-100 border border-[#E5E5E0] text-[#1F2328] font-semibold text-center text-xs hover:bg-stone-200 transition-colors"
                 >
                   Download Resume PDF
                 </a>
                 <a
                   href="#contact"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-full py-3 rounded-2xl bg-slate-900 text-white font-semibold text-center text-sm shadow-md"
+                  className="w-full py-2 rounded-md bg-[#2D6A6A] text-white font-semibold text-center text-xs hover:bg-[#235353] transition-colors"
                 >
                   Contact Me
                 </a>

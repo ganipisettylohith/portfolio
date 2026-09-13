@@ -1,11 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Github, FolderGit2, ExternalLink, Star, Calendar } from "lucide-react";
-import TiltCard from "@/components/ui/TiltCard";
-import gsap from "gsap";
-import { useGSAP } from "@/hooks/useGSAP";
 
 interface RepoData {
   stars: number;
@@ -59,31 +55,6 @@ const pinnedRepos = [
 
 const topTechnologies = ["Python", "FastAPI", "TypeScript", "PostgreSQL", "PyTorch", "Docker"];
 
-function StarsCounter({ value }: { value: number }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-
-  useGSAP(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      setCount(value);
-      return;
-    }
-
-    const obj = { val: 0 };
-    gsap.to(obj, {
-      val: value,
-      duration: 1.2,
-      ease: "power2.out",
-      onUpdate: () => {
-        setCount(Math.floor(obj.val));
-      },
-    });
-  }, [value]);
-
-  return <span ref={ref}>{count}</span>;
-}
-
 export default function GithubSection() {
   const [repoStats, setRepoStats] = useState<Record<string, RepoData>>({});
 
@@ -92,7 +63,6 @@ export default function GithubSection() {
       const cached = localStorage.getItem("github_repo_stats");
       const cacheTime = localStorage.getItem("github_repo_stats_time");
       
-      // Cache for 30 minutes
       if (cached && cacheTime && Date.now() - parseInt(cacheTime, 10) < 30 * 60 * 1000) {
         setRepoStats(JSON.parse(cached));
         return;
@@ -100,7 +70,6 @@ export default function GithubSection() {
 
       const stats: Record<string, RepoData> = {};
       
-      // Request repos sequentially or concurrently (public safe)
       await Promise.all(
         pinnedRepos.map(async (repo) => {
           try {
@@ -133,13 +102,13 @@ export default function GithubSection() {
   return (
     <section id="github" className="py-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-stone-100 border border-stone-200 text-stone-800 text-xs font-semibold uppercase tracking-wider mb-3">
+      <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#2D6A6A]/10 text-[#2D6A6A] text-xs font-semibold uppercase tracking-wider mb-3">
           <Github size={14} /> Open Source Code
         </div>
 
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight mb-3">
-          GitHub <span className="text-gradient">Repositories</span>
+        <h2 className="text-2xl sm:text-4xl font-bold text-[#1F2328] tracking-tight mb-3">
+          GitHub Repositories
         </h2>
 
         <p className="text-slate-600 text-sm sm:text-base">
@@ -148,17 +117,17 @@ export default function GithubSection() {
       </div>
 
       {/* Profile Card */}
-      <div className="glass-card-premium p-6 sm:p-8 mb-10">
+      <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 mb-8 shadow-sm">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-center sm:text-left">
-            <div className="w-14 h-14 rounded-full bg-[var(--foreground)] text-white font-extrabold text-xl flex items-center justify-center shadow-md">
+            <div className="w-12 h-12 rounded-md bg-[#2D6A6A] text-white font-bold text-lg flex items-center justify-center shrink-0">
               GL
             </div>
             <div>
-              <h3 className="text-2xl font-bold text-[var(--foreground)]">
+              <h3 className="text-xl font-bold text-[#1F2328]">
                 ganipisettylohith
               </h3>
-              <p className="text-sm text-slate-500 font-medium">
+              <p className="text-xs text-slate-500 font-medium">
                 G. Lohith • Public Portfolio Repositories
               </p>
             </div>
@@ -168,20 +137,20 @@ export default function GithubSection() {
             href="https://github.com/ganipisettylohith"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-full bg-[var(--foreground)] text-white font-bold text-xs sm:text-sm hover:bg-[var(--accent-primary)] transition-colors flex items-center gap-2 shadow-md shrink-0 cursor-pointer"
+            className="px-5 py-2.5 rounded-md bg-[#2D6A6A] text-white font-semibold text-xs sm:text-sm hover:bg-[#235353] transition-colors flex items-center gap-2 shadow-sm shrink-0 cursor-pointer"
           >
-            <Github size={16} /> View Profile on GitHub <ExternalLink size={14} />
+            <Github size={15} /> View Profile on GitHub <ExternalLink size={13} />
           </a>
         </div>
 
         {/* Primary Technologies Row */}
-        <div className="mt-6 pt-6 border-t border-stone-200/60 flex flex-wrap items-center justify-between gap-4">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+        <div className="mt-6 pt-5 border-t border-[#E5E5E0] flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
             Primary Technologies Used
           </span>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5">
             {topTechnologies.map((tech) => (
-              <span key={tech} className="glass-badge">
+              <span key={tech} className="px-2.5 py-0.5 rounded-md bg-stone-50 border border-[#E5E5E0] text-slate-700 text-xs font-medium">
                 {tech}
               </span>
             ))}
@@ -190,67 +159,51 @@ export default function GithubSection() {
       </div>
 
       {/* Public Repositories Grid */}
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        transition={{ staggerChildren: 0.08 }}
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {pinnedRepos.map((repo) => {
           const stats = repoStats[repo.repoName];
           return (
-            <motion.div
+            <a
               key={repo.name}
-              variants={{
-                hidden: { opacity: 0, y: 16 },
-                visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
-              }}
-              className="h-full"
+              href={repo.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 flex flex-col justify-between shadow-sm hover:border-[#2D6A6A]/40 transition-colors group cursor-pointer"
             >
-              <TiltCard className="h-full" intensity={12}>
-                <a
-                  href={repo.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="h-full glass-card-light p-6 flex flex-col justify-between block group cursor-pointer"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-3">
-                      <h4 className="text-base font-bold text-[var(--foreground)] group-hover:text-[var(--accent-primary)] transition-colors flex items-center gap-2">
-                        <FolderGit2 size={16} className="text-[var(--accent-primary)]" />
-                        {repo.name}
-                      </h4>
-                      <ExternalLink size={14} className="text-slate-400 group-hover:text-[var(--accent-primary)]" />
-                    </div>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-base font-bold text-[#1F2328] group-hover:text-[#2D6A6A] transition-colors flex items-center gap-2">
+                    <FolderGit2 size={15} className="text-[#2D6A6A]" />
+                    {repo.name}
+                  </h4>
+                  <ExternalLink size={13} className="text-slate-400 group-hover:text-[#2D6A6A]" />
+                </div>
 
-                    <p className="text-xs sm:text-sm text-slate-600 mb-5 leading-relaxed">
-                      {repo.description}
-                    </p>
-                  </div>
+                <p className="text-xs sm:text-sm text-slate-600 mb-4 leading-relaxed">
+                  {repo.description}
+                </p>
+              </div>
 
-                  <div className="flex items-center justify-between text-xs font-semibold text-slate-500 pt-4 border-t border-stone-200/60">
-                    <span className="glass-badge font-mono text-[10px] font-bold">
-                      {repo.language}
+              <div className="flex items-center justify-between text-xs font-medium text-slate-500 pt-3 border-t border-[#E5E5E0]">
+                <span className="px-2 py-0.5 rounded-md bg-stone-50 border border-[#E5E5E0] text-[10px] font-medium text-slate-600">
+                  {repo.language}
+                </span>
+                <div className="flex items-center gap-3 text-slate-500 text-[11px]">
+                  <span className="flex items-center gap-1">
+                    <Star size={12} className="text-amber-600 fill-amber-600" />
+                    {stats?.stars || 0}
+                  </span>
+                  {stats?.updatedAt && (
+                    <span className="flex items-center gap-1 text-[10px]">
+                      <Calendar size={11} /> {stats.updatedAt}
                     </span>
-                    <div className="flex items-center gap-3 text-slate-500 text-[11px]">
-                      <span className="flex items-center gap-1">
-                        <Star size={12} className="text-amber-500 fill-amber-500" />
-                        <StarsCounter value={stats?.stars || 0} />
-                      </span>
-                      {stats?.updatedAt && (
-                        <span className="flex items-center gap-1 font-mono text-[10px]">
-                          <Calendar size={11} /> {stats.updatedAt}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </a>
-              </TiltCard>
-            </motion.div>
+                  )}
+                </div>
+              </div>
+            </a>
           );
         })}
-      </motion.div>
+      </div>
     </section>
   );
 }

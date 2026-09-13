@@ -1,20 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft, Github, HelpCircle, Activity, ShieldAlert, Cpu } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@/hooks/useGSAP";
-
-if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger);
-}
+import { ArrowLeft, Github, HelpCircle } from "lucide-react";
+import { useState } from "react";
 
 export default function DOSAccordCaseStudyPage() {
   const [activeSection, setActiveSection] = useState("overview");
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const sections = [
     { id: "overview", label: "Overview" },
@@ -24,33 +15,18 @@ export default function DOSAccordCaseStudyPage() {
     { id: "improvements", label: "Next Steps" }
   ];
 
-  useGSAP(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) return;
-
-    sections.forEach((sec) => {
-      ScrollTrigger.create({
-        trigger: `#${sec.id}`,
-        start: "top 30%",
-        end: "bottom 30%",
-        onEnter: () => setActiveSection(sec.id),
-        onEnterBack: () => setActiveSection(sec.id),
-      });
-    });
-  }, { scope: containerRef });
-
   return (
-    <div ref={containerRef} className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 relative z-10">
+    <div className="min-h-screen pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 relative z-10">
       
       {/* Sticky Left Navigation Bar */}
-      <aside className="lg:w-64 shrink-0 lg:sticky lg:top-28 h-fit space-y-6">
-        <Link href="/#projects" className="inline-flex items-center gap-2 text-slate-400 hover:text-slate-900 transition-colors group text-sm font-bold">
-          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+      <aside className="lg:w-60 shrink-0 lg:sticky lg:top-28 h-fit space-y-4">
+        <Link href="/#projects" className="inline-flex items-center gap-2 text-slate-600 hover:text-[#1F2328] transition-colors text-xs font-semibold">
+          <ArrowLeft size={15} />
           Back to Portfolio
         </Link>
 
-        <div className="bg-white/40 backdrop-blur-md border border-white/60 p-4 rounded-3xl space-y-1.5 hidden lg:block">
-          <div className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest px-3 mb-2">
+        <div className="bg-white border border-[#E5E5E0] p-3 rounded-md space-y-1 hidden lg:block shadow-sm">
+          <div className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider px-2 mb-1">
             Case Study Navigation
           </div>
           {sections.map((sec) => {
@@ -59,17 +35,11 @@ export default function DOSAccordCaseStudyPage() {
               <a
                 key={sec.id}
                 href={`#${sec.id}`}
-                className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-bold transition-all relative ${
-                  isActive ? "text-[var(--accent-primary)] bg-white shadow-sm" : "text-slate-500 hover:text-slate-800"
+                onClick={() => setActiveSection(sec.id)}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  isActive ? "text-[#2D6A6A] bg-stone-100 font-bold border border-[#E5E5E0]" : "text-slate-600 hover:text-[#1F2328]"
                 }`}
               >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeSectionIndicator"
-                    className="absolute left-0 w-1 h-1/2 bg-[var(--accent-primary)] rounded"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                  />
-                )}
                 {sec.label}
               </a>
             );
@@ -78,19 +48,18 @@ export default function DOSAccordCaseStudyPage() {
       </aside>
 
       {/* Main Content Pane */}
-      <main className="flex-1 space-y-16">
+      <main className="flex-1 space-y-12">
         
         {/* Hero Section Card */}
-        <div className="glass-card-premium p-8 md:p-12 relative overflow-hidden bg-slate-900 text-white rounded-3xl">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--accent-primary)]/10 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none" />
-          <div className="text-[var(--accent-primary)] text-xs font-mono font-bold tracking-widest mb-3">★ HERO PROJECT</div>
-          <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight leading-tight">
+        <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] p-6 md:p-8 rounded-lg shadow-sm">
+          <div className="text-[#2D6A6A] text-xs font-semibold uppercase tracking-wider mb-2">FLAGSHIP PROJECT</div>
+          <h1 className="text-2xl md:text-4xl font-bold text-[#1F2328] mb-2 tracking-tight">
             DOSAccord.ai
           </h1>
-          <p className="text-sm font-bold text-slate-400 font-mono mb-6">Smart Sports Analytics Platform</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="text-sm font-medium text-slate-500 mb-5">Smart Sports Analytics Platform</p>
+          <div className="flex flex-wrap gap-1.5">
             {["Python", "FastAPI", "Next.js", "TypeScript", "PostgreSQL", "pgvector", "Auth0", "Docker", "AWS EC2"].map((t) => (
-              <span key={t} className="text-xs font-mono px-3 py-1 bg-white/5 text-slate-300 rounded border border-white/10">
+              <span key={t} className="text-xs font-medium px-2.5 py-0.5 bg-stone-50 text-slate-700 rounded-md border border-[#E5E5E0]">
                 {t}
               </span>
             ))}
@@ -99,22 +68,22 @@ export default function DOSAccordCaseStudyPage() {
 
         {/* Section 1: Overview */}
         <section id="overview" className="scroll-mt-28 space-y-4">
-          <h2 className="text-2xl font-extrabold text-[var(--foreground)] border-b border-stone-200 pb-2">
+          <h2 className="text-xl font-bold text-[#1F2328] border-b border-[#E5E5E0] pb-2">
             Overview / Context
           </h2>
-          <p className="text-slate-700 leading-relaxed font-medium">
+          <p className="text-slate-700 text-sm leading-relaxed font-normal">
             DOSAccord.ai is an intelligent sports telemetry analyzer. Using structured multi-agent routing modules, coaches and managers query database stats and tactical playbooks in plain English, receiving parsed summaries instantly.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-            <div className="p-5 rounded-2xl bg-amber-50/40 border border-amber-100">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-primary)] mb-2">The Problem</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="p-4 rounded-md bg-stone-50 border border-[#E5E5E0]">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#2D6A6A] mb-1">The Problem</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 Reviewing tactical rules, coach logs, and player stats in parallel requires manual searches across multiple spreadsheets. This friction delays decision-making in high-pressure training scenarios.
               </p>
             </div>
-            <div className="p-5 rounded-2xl bg-emerald-50/40 border border-emerald-100">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[var(--accent-secondary)] mb-2">The Approach</h4>
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+            <div className="p-4 rounded-md bg-stone-50 border border-[#E5E5E0]">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-[#2D6A6A] mb-1">The Approach</h4>
+              <p className="text-xs text-slate-600 leading-relaxed font-normal">
                 I engineered a multi-agent system in FastAPI. Incoming natural language queries are parsed, routed to specialized agents (e.g. Stats vs. Rules), semantic-searched via pgvector HNSW indices, and synthesized.
               </p>
             </div>
@@ -122,85 +91,48 @@ export default function DOSAccordCaseStudyPage() {
         </section>
 
         {/* Section 2: Architecture Diagram */}
-        <section id="architecture" className="scroll-mt-28 space-y-6">
-          <h2 className="text-2xl font-extrabold text-[var(--foreground)] border-b border-stone-200 pb-2">
+        <section id="architecture" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl font-bold text-[#1F2328] border-b border-[#E5E5E0] pb-2">
             System Architecture
           </h2>
-          <p className="text-slate-700 leading-relaxed font-medium">
+          <p className="text-slate-700 text-sm leading-relaxed font-normal">
             Incoming queries are classified at the FastAPI gateway layer, dynamically targeting specialized agents backed by HNSW vector search.
           </p>
           
-          {/* Animated SVG Architecture Diagram */}
-          <div className="p-6 rounded-3xl bg-slate-950 border border-slate-800 shadow-inner flex items-center justify-center select-none">
-            <svg viewBox="0 0 800 320" className="w-full h-auto overflow-visible font-mono text-[9px] font-bold fill-white">
+          <div className="p-5 rounded-lg bg-stone-50 border border-[#E5E5E0] shadow-sm flex items-center justify-center select-none">
+            <svg viewBox="0 0 800 300" className="w-full h-auto overflow-visible text-[10px] font-semibold fill-[#1F2328]">
               {/* Nodes */}
-              <rect x="20" y="120" width="110" height="60" rx="10" fill="#2d3748" stroke="#4a5568" strokeWidth="1.5" />
-              <text x="75" y="155" textAnchor="middle">User Query</text>
+              <rect x="20" y="110" width="120" height="60" rx="6" fill="#FFFFFF" stroke="#E5E5E0" strokeWidth="1.5" />
+              <text x="80" y="145" textAnchor="middle">User Query</text>
 
-              <rect x="210" y="120" width="120" height="60" rx="10" fill="#1a202c" stroke="var(--accent-primary)" strokeWidth="1.5" />
-              <text x="270" y="155" textAnchor="middle">FastAPI Router</text>
+              <rect x="210" y="110" width="130" height="60" rx="6" fill="#FFFFFF" stroke="#2D6A6A" strokeWidth="1.5" />
+              <text x="275" y="145" textAnchor="middle">FastAPI Router</text>
 
-              <rect x="410" y="50" width="120" height="60" rx="10" fill="#1a202c" stroke="#2d6e5c" strokeWidth="1.5" />
-              <text x="470" y="85" textAnchor="middle">Specialized Agents</text>
+              <rect x="420" y="40" width="130" height="60" rx="6" fill="#FFFFFF" stroke="#2D6A6A" strokeWidth="1.5" />
+              <text x="485" y="75" textAnchor="middle">Specialized Agents</text>
 
-              <rect x="410" y="190" width="120" height="60" rx="10" fill="#1a202c" stroke="#3e5c52" strokeWidth="1.5" />
-              <text x="470" y="225" textAnchor="middle">pgvector HNSW</text>
+              <rect x="420" y="180" width="130" height="60" rx="6" fill="#FFFFFF" stroke="#2D6A6A" strokeWidth="1.5" />
+              <text x="485" y="215" textAnchor="middle">pgvector HNSW</text>
 
-              <rect x="650" y="120" width="120" height="60" rx="10" fill="#2d3748" stroke="#4a5568" strokeWidth="1.5" />
-              <text x="710" y="155" textAnchor="middle">LLM Synthesis</text>
+              <rect x="640" y="110" width="130" height="60" rx="6" fill="#FFFFFF" stroke="#E5E5E0" strokeWidth="1.5" />
+              <text x="705" y="145" textAnchor="middle">LLM Synthesis</text>
 
-              {/* Animated Lines */}
-              <motion.path
-                d="M 130 150 L 210 150"
-                fill="none"
-                stroke="var(--accent-primary)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              />
-              <motion.path
-                d="M 330 150 L 410 80"
-                fill="none"
-                stroke="var(--accent-secondary)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.3 }}
-              />
-              <motion.path
-                d="M 470 110 L 470 190"
-                fill="none"
-                stroke="var(--accent-secondary)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              />
-              <motion.path
-                d="M 530 220 L 650 150"
-                fill="none"
-                stroke="var(--accent-primary)"
-                strokeWidth="2"
-                initial={{ pathLength: 0 }}
-                whileInView={{ pathLength: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: 0.9 }}
-              />
+              {/* Connections */}
+              <path d="M 140 140 L 210 140" fill="none" stroke="#2D6A6A" strokeWidth="1.5" />
+              <path d="M 340 140 L 420 70" fill="none" stroke="#2D6A6A" strokeWidth="1.5" />
+              <path d="M 485 100 L 485 180" fill="none" stroke="#2D6A6A" strokeWidth="1.5" />
+              <path d="M 550 210 L 640 140" fill="none" stroke="#2D6A6A" strokeWidth="1.5" />
             </svg>
           </div>
         </section>
 
         {/* Section 3: Key Decisions */}
         <section id="decisions" className="scroll-mt-28 space-y-4">
-          <h2 className="text-2xl font-extrabold text-[var(--foreground)] border-b border-stone-200 pb-2">
+          <h2 className="text-xl font-bold text-[#1F2328] border-b border-[#E5E5E0] pb-2">
             Engineering Friction & Key Decision
           </h2>
-          <div className="space-y-4 font-medium text-slate-700 leading-relaxed">
-            <h4 className="text-sm font-bold text-slate-900 uppercase">Routing intent via Pydantic classification</h4>
+          <div className="space-y-3 text-xs sm:text-sm font-normal text-slate-700 leading-relaxed">
+            <h4 className="text-sm font-bold text-[#1F2328]">Routing intent via Pydantic classification</h4>
             <p>
               Under early testing, general LLMs struggled to classify whether questions requested statistical operations (e.g. averages) or simple text retrieval. Standard keyword filters frequently routed inquiries to the wrong database.
             </p>
@@ -212,31 +144,31 @@ export default function DOSAccordCaseStudyPage() {
 
         {/* Section 4: Metrics */}
         <section id="metrics" className="scroll-mt-28 space-y-4">
-          <h2 className="text-2xl font-extrabold text-[var(--foreground)] border-b border-stone-200 pb-2">
+          <h2 className="text-xl font-bold text-[#1F2328] border-b border-[#E5E5E0] pb-2">
             Analytics Platform Metrics
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-            <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 shadow-sm text-center">
-              <div className="text-3xl font-black text-[var(--accent-primary)] mb-1">99%</div>
-              <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Intent Routing Precision</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+            <div className="p-5 rounded-md bg-white border border-[#E5E5E0] shadow-sm text-center">
+              <div className="text-2xl font-bold text-[#2D6A6A] mb-1">99%</div>
+              <p className="text-xs text-slate-500 font-medium">Intent Routing Precision</p>
             </div>
-            <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 shadow-sm text-center">
-              <div className="text-3xl font-black text-[var(--accent-secondary)] mb-1">&lt;20ms</div>
-              <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Router Latency</p>
+            <div className="p-5 rounded-md bg-white border border-[#E5E5E0] shadow-sm text-center">
+              <div className="text-2xl font-bold text-[#2D6A6A] mb-1">&lt;20ms</div>
+              <p className="text-xs text-slate-500 font-medium">Router Latency</p>
             </div>
-            <div className="p-6 rounded-2xl bg-white/70 border border-slate-200 shadow-sm text-center">
-              <div className="text-3xl font-black text-slate-900 mb-1">4+</div>
-              <p className="text-xs text-slate-500 font-bold uppercase tracking-wider">Specialized AI Agents</p>
+            <div className="p-5 rounded-md bg-white border border-[#E5E5E0] shadow-sm text-center">
+              <div className="text-2xl font-bold text-[#1F2328] mb-1">4+</div>
+              <p className="text-xs text-slate-500 font-medium">Specialized AI Agents</p>
             </div>
           </div>
         </section>
 
         {/* Section 5: Future Improvements */}
         <section id="improvements" className="scroll-mt-28 space-y-4">
-          <h2 className="text-2xl font-extrabold text-[var(--foreground)] border-b border-stone-200 pb-2">
+          <h2 className="text-xl font-bold text-[#1F2328] border-b border-[#E5E5E0] pb-2">
             Next Steps / What I'd Improve
           </h2>
-          <ul className="space-y-3 font-medium text-slate-700 leading-relaxed list-disc list-inside">
+          <ul className="space-y-2 text-xs sm:text-sm font-normal text-slate-700 leading-relaxed list-disc list-inside">
             <li>Incorporate conversational memory buffers using Redis.</li>
             <li>Train small domain-specific classifiers to optimize hardware inference budgets.</li>
             <li>Implement streaming vector embeddings to index playbook files immediately upon upload.</li>
@@ -244,17 +176,17 @@ export default function DOSAccordCaseStudyPage() {
         </section>
 
         {/* Footer actions */}
-        <div className="flex items-center gap-4 pt-6 border-t border-stone-200">
+        <div className="flex items-center gap-3 pt-4 border-t border-[#E5E5E0]">
           <a
             href="https://github.com/ganipisettylohith/DOSAccord.ai"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-semibold transition-colors cursor-pointer text-sm shadow-md"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#2D6A6A] hover:bg-[#235353] text-white rounded-md font-semibold transition-colors cursor-pointer text-xs shadow-sm"
           >
-            <Github size={16} /> View Repository
+            <Github size={15} /> View Repository
           </a>
-          <span className="flex items-center gap-1.5 px-6 py-3 bg-stone-100 text-stone-500 rounded-full font-bold cursor-default text-xs border border-stone-200">
-            <HelpCircle size={15} /> Live demo offline
+          <span className="flex items-center gap-1.5 px-4 py-2 bg-stone-100 text-slate-500 rounded-md font-medium cursor-default text-xs border border-[#E5E5E0]">
+            <HelpCircle size={14} /> Live demo offline
           </span>
         </div>
 

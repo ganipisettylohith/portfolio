@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Mail, Send, Copy, Check, Github, Linkedin, FileText, MapPin, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
-import Magnetic from "@/components/ui/Magnetic";
 
 export default function ContactSection() {
   const [copiedEmail, setCopiedEmail] = useState(false);
@@ -51,12 +49,12 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 relative z-10 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-14">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-xs font-semibold uppercase tracking-wider mb-3">
+      <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#2D6A6A]/10 text-[#2D6A6A] text-xs font-semibold uppercase tracking-wider mb-3">
           <Mail size={14} /> Get in Touch
         </div>
 
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-[var(--foreground)] tracking-tight mb-3">
+        <h2 className="text-2xl sm:text-4xl font-bold text-[#1F2328] tracking-tight mb-3">
           Let's Connect
         </h2>
 
@@ -67,124 +65,116 @@ export default function ContactSection() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Column: Contact Cards & Quick Copy */}
-        <div className="lg:col-span-5 space-y-5">
+        <div className="lg:col-span-5 space-y-4">
           {/* Email Copy Card */}
-          <div className="glass-card-light p-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
+          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-2">
               Direct Email
             </span>
-            <div className="flex items-center justify-between gap-3 p-3 rounded-2xl bg-white/40 border border-white/60">
-              <span className="text-xs sm:text-sm font-semibold text-stone-850 truncate">
+            <div className="flex items-center justify-between gap-3 p-2.5 rounded-md bg-stone-50 border border-[#E5E5E0]">
+              <span className="text-xs sm:text-sm font-semibold text-[#1F2328] truncate">
                 {emailAddress}
               </span>
               <button
                 onClick={handleCopyEmail}
-                className="px-3 py-1.5 rounded-xl bg-white border border-stone-200 text-xs font-bold text-[var(--accent-primary)] hover:bg-amber-50 transition-colors shrink-0 flex items-center gap-1 shadow-sm"
+                className="px-3 py-1 rounded-md bg-white border border-[#E5E5E0] text-xs font-semibold text-[#2D6A6A] hover:bg-stone-100 transition-colors shrink-0 flex items-center gap-1 shadow-sm cursor-pointer"
               >
-                {copiedEmail ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
+                {copiedEmail ? <Check size={14} className="text-emerald-700" /> : <Copy size={14} />}
                 {copiedEmail ? "Copied!" : "Copy"}
               </button>
             </div>
           </div>
 
           {/* Location & Status Card */}
-          <div className="glass-card-light p-6 space-y-4">
+          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 space-y-4 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-amber-50 text-[var(--accent-primary)]">
-                <MapPin size={20} />
+              <div className="p-2.5 rounded-md bg-stone-100 text-[#2D6A6A]">
+                <MapPin size={18} />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[var(--foreground)]">Location & Availability</h4>
+                <h4 className="text-sm font-bold text-[#1F2328]">Location & Availability</h4>
                 <p className="text-xs text-slate-500 font-medium">India • Hybrid / Remote / On-Site</p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-2xl bg-emerald-50 text-[var(--accent-secondary)]">
-                <Sparkles size={20} />
+              <div className="p-2.5 rounded-md bg-stone-100 text-[#2D6A6A]">
+                <Sparkles size={18} />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[var(--foreground)]">Current Role</h4>
+                <h4 className="text-sm font-bold text-[#1F2328]">Current Role</h4>
                 <p className="text-xs text-slate-500 font-medium">Technical Intern • Dream Olympic Sports</p>
               </div>
             </div>
           </div>
 
           {/* Social Media Buttons */}
-          <div className="glass-card-light p-6">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-4">
+          <div className="bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-5 shadow-sm">
+            <span className="text-xs font-semibold uppercase tracking-wider text-slate-400 block mb-3">
               Social Links
             </span>
-            <div className="grid grid-cols-2 gap-3">
-              <Magnetic>
-                <motion.a
-                  href="https://github.com/ganipisettylohith"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[var(--foreground)] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm cursor-pointer"
-                >
-                  <Github size={16} /> GitHub
-                </motion.a>
-              </Magnetic>
+            <div className="grid grid-cols-2 gap-2.5">
+              <a
+                href="https://github.com/ganipisettylohith"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-2.5 rounded-md bg-[#1F2328] text-white font-semibold text-xs hover:bg-[#2D6A6A] transition-colors shadow-sm cursor-pointer"
+              >
+                <Github size={15} /> GitHub
+              </a>
 
-              <Magnetic>
-                <motion.a
-                  href="https://www.linkedin.com/in/lohith-ganipisetty"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-[#0077b5] text-white font-bold text-xs hover:bg-[var(--accent-primary)] transition-colors shadow-sm cursor-pointer"
-                >
-                  <Linkedin size={16} /> LinkedIn
-                </motion.a>
-              </Magnetic>
+              <a
+                href="https://www.linkedin.com/in/lohith-ganipisetty"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 p-2.5 rounded-md bg-[#2D6A6A] text-white font-semibold text-xs hover:bg-[#235353] transition-colors shadow-sm cursor-pointer"
+              >
+                <Linkedin size={15} /> LinkedIn
+              </a>
 
-              <Magnetic>
-                <motion.a
-                  href={`mailto:${emailAddress}`}
-                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-amber-50 border border-amber-200 text-[var(--accent-primary)] font-bold text-xs hover:bg-amber-100 transition-colors cursor-pointer"
-                >
-                  <Mail size={16} /> Email Me
-                </motion.a>
-              </Magnetic>
+              <a
+                href={`mailto:${emailAddress}`}
+                className="flex items-center justify-center gap-2 p-2.5 rounded-md bg-stone-100 border border-[#E5E5E0] text-[#1F2328] font-semibold text-xs hover:bg-stone-200 transition-colors cursor-pointer"
+              >
+                <Mail size={15} /> Email Me
+              </a>
 
-              <Magnetic>
-                <motion.a
-                  href="/resume.pdf"
-                  download
-                  className="flex items-center justify-center gap-2 p-3 rounded-2xl bg-stone-100 border border-stone-200 text-stone-800 font-bold text-xs hover:bg-stone-200 transition-colors cursor-pointer"
-                >
-                  <FileText size={16} /> Resume
-                </motion.a>
-              </Magnetic>
+              <a
+                href="/resume.pdf"
+                download
+                className="flex items-center justify-center gap-2 p-2.5 rounded-md bg-stone-100 border border-[#E5E5E0] text-[#1F2328] font-semibold text-xs hover:bg-stone-200 transition-colors cursor-pointer"
+              >
+                <FileText size={15} /> Resume
+              </a>
             </div>
           </div>
         </div>
 
         {/* Right Column: Contact Form */}
-        <div className="lg:col-span-7 glass-card-premium p-8 sm:p-10">
+        <div className="lg:col-span-7 bg-white/70 backdrop-blur-md border border-[#E5E5E0] rounded-md p-6 sm:p-8 shadow-sm">
           {formSubmitted ? (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-                <Check size={32} />
+            <div className="text-center py-10">
+              <div className="w-12 h-12 rounded-md bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-3 border border-emerald-200">
+                <Check size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-[var(--foreground)] mb-2">Message Sent!</h3>
-              <p className="text-sm text-slate-600 max-w-md mx-auto">
+              <h3 className="text-xl font-bold text-[#1F2328] mb-1">Message Sent!</h3>
+              <p className="text-xs text-slate-600 max-w-md mx-auto">
                 Thank you for reaching out. I'll get back to you shortly.
               </p>
               <button
                 onClick={() => setFormSubmitted(false)}
-                className="mt-6 px-6 py-2 rounded-xl bg-stone-100 border border-stone-200 text-xs font-bold text-slate-700 hover:bg-stone-250 transition-colors"
+                className="mt-5 px-5 py-2 rounded-md bg-stone-100 border border-[#E5E5E0] text-xs font-semibold text-[#1F2328] hover:bg-stone-200 transition-colors cursor-pointer"
               >
                 Send another message
               </button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <h3 className="text-xl font-bold text-[var(--foreground)] mb-2">Send a Message</h3>
+              <h3 className="text-lg font-bold text-[#1F2328] mb-1">Send a Message</h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
                     Your Name
                   </label>
                   <input
@@ -193,12 +183,12 @@ export default function ContactSection() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="John Doe"
-                    className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-md bg-[#FAFAF7] border border-[#E5E5E0] text-[#1F2328] text-xs focus:outline-none focus:border-[#2D6A6A] focus:bg-white transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
                     Your Email
                   </label>
                   <input
@@ -207,13 +197,13 @@ export default function ContactSection() {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="john@example.com"
-                    className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
+                    className="w-full px-3.5 py-2.5 rounded-md bg-[#FAFAF7] border border-[#E5E5E0] text-[#1F2328] text-xs focus:outline-none focus:border-[#2D6A6A] focus:bg-white transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
                   Subject
                 </label>
                 <input
@@ -222,12 +212,12 @@ export default function ContactSection() {
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   placeholder="AI Engineering Opportunity / Inquiry"
-                  className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-md bg-[#FAFAF7] border border-[#E5E5E0] text-[#1F2328] text-xs focus:outline-none focus:border-[#2D6A6A] focus:bg-white transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
                   Message
                 </label>
                 <textarea
@@ -236,20 +226,18 @@ export default function ContactSection() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Hi Lohith, I'd like to discuss a project..."
-                  className="w-full px-4 py-3 rounded-2xl bg-white/40 border border-white/60 text-stone-900 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:bg-white/60 transition-all resize-none"
+                  className="w-full px-3.5 py-2.5 rounded-md bg-[#FAFAF7] border border-[#E5E5E0] text-[#1F2328] text-xs focus:outline-none focus:border-[#2D6A6A] focus:bg-white transition-all resize-none"
                 />
               </div>
 
-              <Magnetic>
-                <motion.button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full py-4 rounded-2xl bg-[var(--foreground)] text-white font-extrabold text-sm hover:bg-[var(--accent-primary)] transition-colors flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-50"
-                >
-                  <Send size={16} /> 
-                  <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
-                </motion.button>
-              </Magnetic>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 rounded-md bg-[#2D6A6A] text-white font-semibold text-xs hover:bg-[#235353] transition-colors flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-50"
+              >
+                <Send size={15} /> 
+                <span>{isSubmitting ? "Sending..." : "Send Message"}</span>
+              </button>
             </form>
           )}
         </div>

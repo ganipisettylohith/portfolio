@@ -72,15 +72,10 @@ export default function RootLayout({
         />
         <script defer src="/_vercel/insights/script.js" />
       </head>
-      <body className={`${inter.className} overflow-x-hidden max-w-[100vw] relative bg-[#FAF8F5] text-slate-900`}>
-        <MouseGlow />
-        <CustomCursor />
+      <body className={`${inter.className} overflow-x-hidden max-w-[100vw] relative bg-[#FAFAF7] text-[#1F2328]`}>
         <CommandPalette />
-        <SmoothScroll>
-          <LoadingScreen />
-          <FloatingNav />
-          {children}
-        </SmoothScroll>
+        <FloatingNav />
+        {children}
       </body>
     </html>
   );
